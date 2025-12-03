@@ -1,0 +1,215 @@
+/* 
+ * Typography Configuration
+ * 
+ * Edit the values below to change typography across all pages.
+ * All font sizes are in points (pt) to match the original design.
+ */
+
+:root {
+  /* Font Families */
+  --font-body: Lato, sans-serif;
+  --font-heading: Roboto, sans-serif;
+  --font-nav: Lato, sans-serif;
+  --font-nav-heading: Roboto, sans-serif;
+  --font-site-title: Roboto, sans-serif;
+  --font-button: Lato, sans-serif;
+  --font-footer: Roboto, sans-serif;
+  
+  /* Body Text */
+  --font-size-body: 12pt;
+  --font-weight-body: 400;
+  --line-height-body: 1.56;
+  
+  /* Headings */
+  --font-size-h1: 26pt;
+  --font-size-h1-large: 45pt;
+  --font-size-h1-hero: 55pt;
+  --font-size-h2: 18pt;
+  --font-size-h2-large: 21pt;
+  --font-size-h3: 13pt;
+  --font-weight-heading: 700;
+  --line-height-heading: 1.5;
+  
+  /* Navigation */
+  --font-size-nav: 12pt;
+  --font-size-nav-heading: 15pt;
+  --font-weight-nav: 400;
+  --font-weight-nav-heading: 500;
+  
+  /* Site Title */
+  --font-size-site-title: 20pt;
+  --font-weight-site-title: 500;
+  
+  /* Buttons */
+  --font-size-button: 12pt;
+  --font-weight-button: 400;
+  --line-height-button: 22px;
+  
+  /* Footer */
+  --font-size-footer: 9pt;
+  --font-weight-footer: 400;
+  --line-height-footer: 1.2;
+  
+  /* Responsive Typography */
+  --font-size-h1-mobile: 20pt;
+  --font-size-h1-tablet: 23pt;
+  --font-size-h1-large-mobile: 30pt;
+  --font-size-h1-large-tablet: 38pt;
+  --font-size-h1-hero-mobile: 37pt;
+  --font-size-h1-hero-tablet: 47pt;
+  --font-size-h2-mobile: 15pt;
+  --font-size-h2-tablet: 17pt;
+  --font-size-h2-large-mobile: 17pt;
+  --font-size-h2-large-tablet: 19pt;
+  --font-size-h3-mobile: 13pt;
+  --font-size-h3-tablet: 13pt;
+  --font-size-nav-heading-mobile: 14pt;
+  --font-size-nav-heading-tablet: 14pt;
+  --font-size-site-title-mobile: 16pt;
+  --font-size-site-title-tablet: 18pt;
+}
+
+/* Override typography using CSS variables */
+.zfr3Q {
+  font-family: var(--font-body) !important;
+  font-size: var(--font-size-body) !important;
+  font-weight: var(--font-weight-body) !important;
+  line-height: var(--line-height-body) !important;
+}
+
+.duRjpb {
+  font-family: var(--font-heading) !important;
+  font-size: var(--font-size-h1) !important;
+  font-weight: var(--font-weight-heading) !important;
+  line-height: var(--line-height-heading) !important;
+}
+
+.JYVBee {
+  font-family: var(--font-heading) !important;
+  font-size: var(--font-size-h2) !important;
+  font-weight: var(--font-weight-heading) !important;
+}
+
+.OmQG5e {
+  font-family: var(--font-heading) !important;
+  font-size: var(--font-size-h3) !important;
+  font-weight: var(--font-weight-heading) !important;
+}
+
+.PsKE7e {
+  font-family: var(--font-nav) !important;
+  font-size: var(--font-size-nav) !important;
+  font-weight: var(--font-weight-nav) !important;
+}
+
+.TlfmSc {
+  font-family: var(--font-nav-heading) !important;
+  font-size: var(--font-size-nav-heading) !important;
+  font-weight: var(--font-weight-nav-heading) !important;
+}
+
+.Zjiec {
+  font-family: var(--font-site-title) !important;
+  font-size: var(--font-size-site-title) !important;
+  font-weight: var(--font-weight-site-title) !important;
+}
+
+.QmpIrf,
+.xkUom,
+.KjwKmc,
+.Y4CpGd {
+  font-family: var(--font-button) !important;
+  font-size: var(--font-size-button) !important;
+  line-height: var(--line-height-button) !important;
+}
+
+.TMjjoe {
+  font-family: var(--font-footer) !important;
+  font-size: var(--font-size-footer) !important;
+  font-weight: var(--font-weight-footer) !important;
+  line-height: var(--line-height-footer) !important;
+}
+
+/* Large heading variants */
+.LB7kq .duRjpb {
+  font-size: var(--font-size-h1-large) !important;
+}
+
+.LB7kq .JYVBee {
+  font-size: var(--font-size-h2-large) !important;
+}
+
+/* Hero heading */
+.qTLLAf {
+  font-size: var(--font-size-h1-hero) !important;
+}
+
+/* Responsive overrides */
+@media only screen and (max-width: 479px) {
+  .duRjpb {
+    font-size: var(--font-size-h1-mobile) !important;
+  }
+  
+  .LB7kq .duRjpb {
+    font-size: var(--font-size-h1-large-mobile) !important;
+  }
+  
+  .qTLLAf {
+    font-size: var(--font-size-h1-hero-mobile) !important;
+  }
+  
+  .JYVBee {
+    font-size: var(--font-size-h2-mobile) !important;
+  }
+  
+  .LB7kq .JYVBee {
+    font-size: var(--font-size-h2-large-mobile) !important;
+  }
+  
+  .OmQG5e {
+    font-size: var(--font-size-h3-mobile) !important;
+  }
+  
+  .TlfmSc {
+    font-size: var(--font-size-nav-heading-mobile) !important;
+  }
+  
+  .Zjiec {
+    font-size: var(--font-size-site-title-mobile) !important;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .duRjpb {
+    font-size: var(--font-size-h1-tablet) !important;
+  }
+  
+  .LB7kq .duRjpb {
+    font-size: var(--font-size-h1-large-tablet) !important;
+  }
+  
+  .qTLLAf {
+    font-size: var(--font-size-h1-hero-tablet) !important;
+  }
+  
+  .JYVBee {
+    font-size: var(--font-size-h2-tablet) !important;
+  }
+  
+  .LB7kq .JYVBee {
+    font-size: var(--font-size-h2-large-tablet) !important;
+  }
+  
+  .OmQG5e {
+    font-size: var(--font-size-h3-tablet) !important;
+  }
+  
+  .TlfmSc {
+    font-size: var(--font-size-nav-heading-tablet) !important;
+  }
+  
+  .Zjiec {
+    font-size: var(--font-size-site-title-tablet) !important;
+  }
+}
+
