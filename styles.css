@@ -1,0 +1,403 @@
+/* 
+ * ASH MARTIN, LCSW - Static Site Styles
+ * Clean, modern, fast-loading CSS
+ */
+
+/* ==================== CSS Variables ==================== */
+:root {
+  /* Colors */
+  --color-primary: #0c343d;
+  --color-secondary: #576c7e;
+  --color-accent: #74a4cb;
+  --color-text: #212121;
+  --color-text-light: #6a6a6a;
+  --color-bg: #ffffff;
+  --color-bg-alt: #e6e7e7;
+  --color-border: #cccccc;
+  
+  /* Typography */
+  --font-body: 'Lato', sans-serif;
+  --font-heading: 'Montserrat', Arial, sans-serif;
+  
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 60px;
+  
+  /* Layout */
+  --max-width: 1200px;
+  --nav-height: 70px;
+}
+
+/* ==================== Reset & Base Styles ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==================== Typography ==================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: clamp(1.125rem, 3vw, 1.625rem);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+p {
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.7;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-large {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+/* ==================== Layout ==================== */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.section {
+  padding: var(--spacing-xl) 0;
+}
+
+.section-alt {
+  background-color: var(--color-bg-alt);
+}
+
+/* ==================== Navigation ==================== */
+.nav {
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.nav-logo {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+  letter-spacing: 1px;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: var(--spacing-md);
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-text-light);
+  padding: var(--spacing-xs) 0;
+  transition: color 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-text);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text);
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+/* ==================== Hero Section ==================== */
+.hero {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(12, 52, 61, 0.5);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.hero h1 {
+  color: white;
+  margin-bottom: var(--spacing-md);
+}
+
+.hero h3 {
+  color: white;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+/* ==================== Content Sections ==================== */
+.content-section {
+  padding: var(--spacing-xl) 0;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.content-card {
+  background-color: var(--color-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.content-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.content-card-body {
+  padding: var(--spacing-md);
+}
+
+.content-card h3 {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* ==================== Buttons ==================== */
+.btn {
+  display: inline-block;
+  padding: 12px 32px;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--color-secondary);
+  color: white;
+  border-color: var(--color-secondary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+/* ==================== Footer ==================== */
+.footer {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: var(--spacing-lg) 0;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  margin-bottom: var(--spacing-xs);
+}
+
+.footer a {
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+}
+
+.footer a:hover {
+  opacity: 0.8;
+}
+
+/* ==================== Forms ==================== */
+.form-embed {
+  width: 100%;
+  min-height: 980px;
+  border: none;
+  border-radius: 8px;
+}
+
+/* ==================== Map ==================== */
+.map-embed {
+  width: 100%;
+  height: 400px;
+  border: none;
+  border-radius: 8px;
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    left: -100%;
+    top: var(--nav-height);
+    flex-direction: column;
+    background-color: var(--color-bg);
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+    padding: var(--spacing-md) 0;
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  .hero {
+    min-height: 300px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --spacing-lg: 24px;
+    --spacing-xl: 40px;
+  }
+
+  .hero {
+    min-height: 250px;
+    padding: var(--spacing-lg) var(--spacing-sm);
+  }
+}
+
+/* ==================== Utility Classes ==================== */
+.mt-0 { margin-top: 0; }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+
+.hidden {
+  display: none;
+}
+
