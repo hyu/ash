@@ -1,4 +1,7 @@
 :root {
+  /* Layout */
+  --layout-section-gap: 8rem;
+
   /* Colors */
   --color-bg-primary: #FFF9F0;
   --color-border-primary: #99B292;

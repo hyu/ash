@@ -12,13 +12,15 @@ useElementParallax(rightBoxRef, 0.15)
 
 
 <template>
-  <section class="section">
+  <section class="section section-full-height">
     <div class="text-box">
       <p>Therapy is a space for restoring trust in our instincts.</p>
       <p>From there, we find our way to action, pleasure, creativity, and rest.</p>
       <p>More and more, we allow ourselves to exist, connect with others, and become alive.</p>
     </div>
-    
+  </section>
+  
+  <section class="section section-full-height">
     <div class="boxes-container">
       <div ref="leftBoxRef" class="text-box box-left">
         <h3>Therapy</h3>
@@ -39,12 +41,20 @@ useElementParallax(rightBoxRef, 0.15)
   margin-bottom: 3rem;
 }
 
+.section-full-height {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
 .boxes-container {
   display: flex;
   gap: 0;
   justify-content: center;
   align-items: flex-start;
-  margin: 40rem auto 4rem;
+  margin: 0 auto;
   max-width: 1200px;
   padding: 0 2rem;
 }

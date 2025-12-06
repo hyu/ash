@@ -16,6 +16,7 @@
 
 <style scoped>
 .section {
+  margin-top: var(--layout-section-gap);
   margin-bottom: 3rem;
 }
 </style>
