@@ -1,7 +1,127 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue'
+
+// Constants
+const PARALLAX_MULTIPLIER = 0.08
+const EASING_FACTOR = 0.08
+const SNAP_THRESHOLD = 0.01
+const BACKGROUND_IMAGE_PATH = '/bg.jpg'
+
+// Template refs
+const backgroundRef = ref<HTMLElement | null>(null)
+
+// State
+const maxParallaxOffset = ref(0)
+let imageNaturalWidth = 0
+let imageNaturalHeight = 0
+let currentParallaxOffset = 0
+let targetParallaxOffset = 0
+
+// Handlers
+let scrollHandler: (() => void) | null = null
+let resizeHandler: (() => void) | null = null
+let animationFrameId: number | null = null
+
+const calculateScaledImageHeight = (): number => {
+  const { innerHeight: viewportHeight, innerWidth: viewportWidth } = window
+  const imageAspectRatio = imageNaturalWidth / imageNaturalHeight
+  const viewportAspectRatio = viewportWidth / viewportHeight
+  
+  // When using cover: if image is wider, height determines scale; otherwise width does
+  return imageAspectRatio > viewportAspectRatio
+    ? viewportHeight
+    : viewportWidth / imageAspectRatio
+}
+
+const calculateMaxParallax = (): void => {
+  if (imageNaturalWidth === 0 || imageNaturalHeight === 0) return
+  
+  const viewportHeight = window.innerHeight
+  const scaledImageHeight = calculateScaledImageHeight()
+  
+  // Max parallax offset is the difference between scaled image height and viewport
+  maxParallaxOffset.value = Math.max(0, scaledImageHeight - viewportHeight)
+}
+
+const updateParallaxPosition = (): void => {
+  if (!backgroundRef.value) {
+    animationFrameId = requestAnimationFrame(updateParallaxPosition)
+    return
+  }
+  
+  const difference = targetParallaxOffset - currentParallaxOffset
+  
+  if (Math.abs(difference) < SNAP_THRESHOLD) {
+    currentParallaxOffset = targetParallaxOffset
+  } else {
+    currentParallaxOffset += difference * EASING_FACTOR
+  }
+  
+  backgroundRef.value.style.backgroundPositionY = `${-currentParallaxOffset}px`
+  
+  // Continue animation loop
+  animationFrameId = requestAnimationFrame(updateParallaxPosition)
+}
+
+const handleScroll = (): void => {
+  const scrolled = window.pageYOffset
+  targetParallaxOffset = Math.min(scrolled * PARALLAX_MULTIPLIER, maxParallaxOffset.value)
+}
+
+const handleResize = (): void => {
+  calculateMaxParallax()
+  handleScroll()
+}
+
+const cleanup = (): void => {
+  if (scrollHandler) {
+    window.removeEventListener('scroll', scrollHandler)
+  }
+  if (resizeHandler) {
+    window.removeEventListener('resize', resizeHandler)
+  }
+  if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId)
+  }
+}
+
+onMounted(() => {
+  const img = new Image()
+  img.src = BACKGROUND_IMAGE_PATH
+  
+  img.onload = () => {
+    if (!backgroundRef.value) return
+    
+    imageNaturalWidth = img.naturalWidth
+    imageNaturalHeight = img.naturalHeight
+    
+    calculateMaxParallax()
+    
+    // Set up handlers
+    scrollHandler = handleScroll
+    resizeHandler = handleResize
+    
+    // Attach event listeners
+    window.addEventListener('scroll', scrollHandler, { passive: true })
+    window.addEventListener('resize', resizeHandler, { passive: true })
+    
+    // Initial update
+    handleScroll()
+    
+    // Start animation loop after everything is set up
+    animationFrameId = requestAnimationFrame(updateParallaxPosition)
+  }
+  
+  img.onerror = () => {
+    console.error('Failed to load background image')
+  }
+})
+
+onUnmounted(cleanup)
 </script>
 
 <template>
+  <div ref="backgroundRef" class="background"></div>
   <div class="app">
     <!-- Home Section -->
     <section class="section">
@@ -148,7 +268,28 @@
 </template>
 
 <style scoped>
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  background-image: url('/bg.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  z-index: -1;
+  will-change: background-position;
+  /* Ensure background extends beyond viewport to prevent white showing */
+  min-width: 100%;
+  /* Ensure it covers the full viewport at all times */
+  background-color: transparent;
+}
+
 .app {
+  position: relative;
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
