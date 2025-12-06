@@ -15,6 +15,14 @@ import About from './components/About.vue'
     <Therapy />
     <EMDR />
     <About />
+    <section class="section">
+      <div class="text-box text-box-left">
+        <h3>In-Person</h3>
+        <p>My practice is fully in-person. Office is on the Greenpoint / Williamsburg border in Brooklyn</p>
+        <p>5-minute walk from the Nassau Avenue G Train, and a 20-minute walk from the Bedford Avenue L Train</p>
+        <p>Virtual sessions are available when illness, travel, or emergencies prevent us from being in-person.</p>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -24,5 +32,9 @@ import About from './components/About.vue'
   max-width: 100%;
   margin: 0 auto;
   padding: 0;
+}
+
+.section {
+  margin-bottom: 3rem;
 }
 </style>

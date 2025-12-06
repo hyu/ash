@@ -12,11 +12,6 @@
       <p>The second is a more directed, body-oriented approach, sometimes referred to as "experiential therapy" or "trauma therapy."</p>      
       <p>I am queer- and trans-affirming, and experienced working with people in non-monogamous relationship structures.</p> 
       <p>I also offer EMDR (Eye Movement Desensitization and Reprocessing), learn more.</p>
-      
-      <h3>In-Person</h3>
-      <p>My practice is fully in-person. Office is on the Greenpoint / Williamsburg border in Brooklyn</p>
-      <p>5-minute walk from the Nassau Avenue G Train, and a 20-minute walk from the Bedford Avenue L Train</p>
-      <p>Virtual sessions are available when illness, travel, or emergencies prevent us from being in-person.</p>
     </div>
   </section>
 </template>

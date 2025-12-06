@@ -10,13 +10,6 @@
       
       <h3>Insurance</h3>
       <p>I will work with you to use your out-of-network benefits. I provide you with a superbill to submit to your insurance to be reimbursed either all or a portion of the fee.</p>
-      
-      <h3>In Person</h3>
-      <p>My practice is fully in-person. Office is on the Greenpoint / Williamsburg border in Brooklyn</p>
-      
-      <p>5-minute walk from the Nassau Avenue G Train, and a 20-minute walk from the Bedford Avenue L Train</p>
-      
-      <p>Virtual sessions are available when illness, travel, or emergencies prevent us from being in-person.</p>
     </div>
   </section>
 </template>
