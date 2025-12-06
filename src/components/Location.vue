@@ -5,7 +5,7 @@ import type { Map } from 'mapbox-gl'
 
 // Location: 40°43'34.7"N 73°57'18.7"W (converted to decimal: 40.726306, -73.955194)
 const officeLocation: [number, number] = [-73.955194, 40.726306]
-const locationLink = 'https://www.google.com/maps?q=40.726306,-73.955194'
+const locationLink = 'https://www.google.com/maps/dir/?api=1&destination=40.726306,-73.955194'
 const locationText = 'Near Messerole & Dobbin in Greenpoint / Williamsburg Brooklyn'
 
 const copied = ref(false)
@@ -20,6 +20,14 @@ const copyLink = async () => {
   } catch (err) {
     console.error('Failed to copy:', err)
   }
+}
+
+const openGTrainDirections = () => {
+  window.open('https://transitapp.com/en/region/nyc/nyc-subway/subway-g', '_blank')
+}
+
+const openLTrainDirections = () => {
+  window.open('https://transitapp.com/en/region/nyc/nyc-subway/subway-l', '_blank')
 }
 
 // Mapbox public token
@@ -186,7 +194,17 @@ onUnmounted(() => {
     <div class="text-box text-box-left">
       <h3>In-Person</h3>
       <p>My practice is fully in-person. Office is near Messerole & Dobbin in Greenpoint / Williamsburg Brooklyn</p>
-      <p>5-minute walk from the Nassau Avenue G Train, and a 20-minute walk from the Bedford Avenue L Train</p>
+      <p>
+        5-minute walk from the Nassau Avenue 
+        <span class="train-icon train-icon-g" @click="openGTrainDirections" title="Get directions from G Train">
+          G
+        </span>
+        Train, and a 20-minute walk from the Bedford Avenue 
+        <span class="train-icon train-icon-l" @click="openLTrainDirections" title="Get directions from L Train">
+          L
+        </span>
+        Train
+      </p>
       <p>Virtual sessions are available when illness, travel, or emergencies prevent us from being in-person.</p>
       <div ref="mapContainer" class="map-container"></div>
       <div class="location-link-container">
@@ -247,23 +265,23 @@ onUnmounted(() => {
 }
 
 .location-link-container {
-  margin-top: 20px;
+  margin-top: 1.25rem;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .location-link {
   flex: 1;
-  min-width: 200px;
+  min-width: 12.5rem;
   color: var(--color-text-primary);
   text-decoration: none;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
   word-break: break-all;
-  padding: 8px 0;
+  padding: 0.5rem 0;
   text-decoration: underline;
   text-decoration-color: transparent;
   text-underline-offset: 2px;
@@ -272,6 +290,35 @@ onUnmounted(() => {
 
 .location-link:hover {
   text-decoration-color: var(--color-border-primary);
+}
+
+.train-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: white;
+  margin: 0 0.25em;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.train-icon-g {
+  background-color: #6cbe45; /* Green for G train */
+}
+
+.train-icon-l {
+  background-color: #a7a9ac; /* Gray for L train */
+}
+
+.train-icon:hover {
+  background-color: #000000 !important;
 }
 
 </style>
