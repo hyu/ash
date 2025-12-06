@@ -16,11 +16,12 @@ let imageNaturalWidth = 0
 let imageNaturalHeight = 0
 let currentParallaxOffset = 0
 let targetParallaxOffset = 0
+let isAnimating = false
+let rafId: number | null = null
 
 // Handlers
 let scrollHandler: (() => void) | null = null
 let resizeHandler: (() => void) | null = null
-let animationFrameId: number | null = null
 
 const calculateScaledImageHeight = (): number => {
   const { innerHeight: viewportHeight, innerWidth: viewportWidth } = window
@@ -33,6 +34,15 @@ const calculateScaledImageHeight = (): number => {
     : viewportWidth / imageAspectRatio
 }
 
+const updateBackgroundHeight = (): void => {
+  if (!backgroundRef.value) return
+  
+  const viewportHeight = window.innerHeight
+  // Make background tall enough to cover viewport + parallax movement
+  const extraHeight = maxParallaxOffset.value || 0
+  backgroundRef.value.style.height = `${viewportHeight + extraHeight}px`
+}
+
 const calculateMaxParallax = (): void => {
   if (imageNaturalWidth === 0 || imageNaturalHeight === 0) return
   
@@ -41,11 +51,13 @@ const calculateMaxParallax = (): void => {
   
   // Max parallax offset is the difference between scaled image height and viewport
   maxParallaxOffset.value = Math.max(0, scaledImageHeight - viewportHeight)
+  updateBackgroundHeight()
 }
 
 const updateParallaxPosition = (): void => {
   if (!backgroundRef.value) {
-    animationFrameId = requestAnimationFrame(updateParallaxPosition)
+    rafId = null
+    isAnimating = false
     return
   }
   
@@ -53,19 +65,28 @@ const updateParallaxPosition = (): void => {
   
   if (Math.abs(difference) < SNAP_THRESHOLD) {
     currentParallaxOffset = targetParallaxOffset
+    isAnimating = false
+    rafId = null
   } else {
     currentParallaxOffset += difference * EASING_FACTOR
+    rafId = requestAnimationFrame(updateParallaxPosition)
   }
   
-  backgroundRef.value.style.backgroundPositionY = `${-currentParallaxOffset}px`
-  
-  // Continue animation loop
-  animationFrameId = requestAnimationFrame(updateParallaxPosition)
+  // Use transform instead of backgroundPositionY for GPU acceleration
+  backgroundRef.value.style.transform = `translate3d(0, ${-currentParallaxOffset}px, 0)`
+}
+
+const startAnimation = (): void => {
+  if (!isAnimating && rafId === null) {
+    isAnimating = true
+    rafId = requestAnimationFrame(updateParallaxPosition)
+  }
 }
 
 const handleScroll = (): void => {
-  const scrolled = window.pageYOffset
+  const scrolled = window.pageYOffset || window.scrollY
   targetParallaxOffset = Math.min(scrolled * PARALLAX_MULTIPLIER, maxParallaxOffset.value)
+  startAnimation()
 }
 
 const handleResize = (): void => {
@@ -80,9 +101,11 @@ const cleanup = (): void => {
   if (resizeHandler) {
     window.removeEventListener('resize', resizeHandler)
   }
-  if (animationFrameId !== null) {
-    cancelAnimationFrame(animationFrameId)
+  if (rafId !== null) {
+    cancelAnimationFrame(rafId)
+    rafId = null
   }
+  isAnimating = false
 }
 
 onMounted(() => {
@@ -96,6 +119,7 @@ onMounted(() => {
     imageNaturalHeight = img.naturalHeight
     
     calculateMaxParallax()
+    updateBackgroundHeight()
     
     // Set up handlers
     scrollHandler = handleScroll
@@ -107,9 +131,6 @@ onMounted(() => {
     
     // Initial update
     handleScroll()
-    
-    // Start animation loop after everything is set up
-    animationFrameId = requestAnimationFrame(updateParallaxPosition)
   }
   
   img.onerror = () => {
@@ -123,6 +144,15 @@ onUnmounted(cleanup)
 <template>
   <div ref="backgroundRef" class="background"></div>
   <div class="app">
+    <!-- Hero Section with Styled Box -->
+    <section class="hero-section">
+      <div class="hero-box">
+        <h1 class="hero-name">Ash Martin, LCSW</h1>
+        <p class="hero-line">In-person Therapy & EMDR</p>
+        <p class="hero-line">Greenpoint / Williamsburg, NYC</p>
+      </div>
+    </section>
+
     <!-- Home Section -->
     <section class="section">
       <h2>Home</h2>
@@ -281,11 +311,16 @@ onUnmounted(cleanup)
   background-repeat: no-repeat;
   background-attachment: scroll;
   z-index: -1;
-  will-change: background-position;
+  /* GPU acceleration optimizations */
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
   /* Ensure background extends beyond viewport to prevent white showing */
   min-width: 100%;
   /* Ensure it covers the full viewport at all times */
   background-color: transparent;
+  /* Height will be dynamically updated via JS to accommodate parallax */
 }
 
 .app {
@@ -293,6 +328,75 @@ onUnmounted(cleanup)
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
+}
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+
+.hero-box {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 4rem 3rem;
+  text-align: center;
+  width: 100%;
+  max-width: 90%;
+}
+
+.hero-name {
+  font-family: 'Karla', sans-serif;
+  font-weight: 800;
+  font-size: 80px;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #0c343d;
+}
+
+.hero-line {
+  font-family: 'Figtree', sans-serif;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  color: #0c343d;
+}
+
+.hero-line:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .hero-box {
+    padding: 3rem 2rem;
+    max-width: 95%;
+  }
+
+  .hero-name {
+    font-size: 50px;
+  }
+
+  .hero-line {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-box {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-name {
+    font-size: 36px;
+  }
+
+  .hero-line {
+    font-size: 24px;
+  }
 }
 
 .section {
