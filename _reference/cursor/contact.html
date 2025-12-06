@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Ash Martin, LCSW for therapy consultation in Brooklyn, NYC. Request an appointment for in-person therapy or EMDR.">
+    <title>Contact - ASH MARTIN, LCSW</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;700&family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">ASH MARTIN, LCSW</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="therapy.html" class="nav-link">THERAPY</a></li>
+                <li><a href="emdr-adjunctive.html" class="nav-link">EMDR & ADJUNCTIVE</a></li>
+                <li><a href="about.html" class="nav-link">ABOUT</a></li>
+                <li><a href="contact.html" class="nav-link active">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background-image: url('bg.jpg');">
+        <div class="hero-content">
+            <h1>CONTACT</h1>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <section class="content-section">
+            <div class="container text-center">
+                <p class="text-large"><strong>Write to me at <a href="mailto:ashmartin.practice@gmail.com" style="text-decoration: underline;">ashmartin.practice@gmail.com</a></strong></p>
+                <p class="text-large"><strong>or request a consultation using this form:</strong></p>
+                
+                <iframe 
+                    class="form-embed mt-lg" 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSe1SURUIL8xgWF9elFIs8Vj0t-1Z29Zz1iQnPyxYRoyttrlZQ/viewform?embedded=true"
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0">
+                    Loading…
+                </iframe>
+            </div>
+        </section>
+
+        <section class="content-section section-alt">
+            <div class="container">
+                <p class="text-center text-large"><strong>Office located 5 min walk from Nassau Avenue G Train<br>& 20 min walk from Bedford Avenue L Train</strong></p>
+                
+                <iframe 
+                    class="map-embed mt-md" 
+                    src="https://maps-api-ssl.google.com/maps?hl=en-US&ll=40.72194,-73.954449&output=embed&q=40.726303,-73.955184&z=15"
+                    frameborder="0" 
+                    style="border:0; margin: 0 auto; display: block;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>ASH MARTIN, LCSW</strong></p>
+            <p><a href="therapy.html">THERAPY</a> & <a href="emdr-adjunctive.html">ADJUNCTIVE EMDR</a></p>
+            <p>IN-PERSON: WILLIAMSBURG / GREENPOINT BROOKLYN, NYC</p>
+            <p>ashmartin.practice@gmail.com</p>
+        </div>
+    </footer>
+
+    <!-- Simple Navigation Toggle Script -->
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

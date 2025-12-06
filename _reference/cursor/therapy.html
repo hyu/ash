@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Individual therapy in Brooklyn, NYC. Psychodynamic and experiential approaches. Queer and trans-affirming practice.">
+    <title>Therapy - ASH MARTIN, LCSW</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;700&family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">ASH MARTIN, LCSW</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="therapy.html" class="nav-link active">THERAPY</a></li>
+                <li><a href="emdr-adjunctive.html" class="nav-link">EMDR & ADJUNCTIVE</a></li>
+                <li><a href="about.html" class="nav-link">ABOUT</a></li>
+                <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background-image: url('bg.jpg');">
+        <div class="hero-content">
+            <h1>THERAPY</h1>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h2 class="text-center">INDIVIDUAL THERAPY</h2>
+                <p class="text-large">Whether you're experienced doing this work or if you're trying therapy for the first time, together we'll find our way into a conversation. Through conversation, the therapy emerges.</p>
+                <p class="text-large">In individual therapy we meet one or more times weekly. I work with adults age 18 and up. <a href="contact.html" style="text-decoration: underline;">Reach out</a> to schedule a consultation.</p>
+
+                <h2 class="text-center mt-lg">STYLE</h2>
+                <p class="text-large">In our conversation, I tend to be an active participant while making a lot of space for you to explore.</p>
+                <p class="text-large">I weave together the two therapeutic styles that I actively train in:</p>
+                <p class="text-large">The first is psychodynamic, with the focus on your history, relationships, personality, style of conversing, dreams, and fantasies.</p>
+                <p class="text-large">The second is a more directed, body-oriented approach, sometimes referred to as "experiential therapy" or "trauma therapy."</p>
+                <p class="text-large">I am queer- and trans-affirming, and experienced working with people in non-monogamous relationship structures.</p>
+                <p class="text-large">I also offer EMDR (Eye Movement Desensitization and Reprocessing), <a href="emdr-adjunctive.html" style="text-decoration: underline;">learn more</a>.</p>
+
+                <h2 class="text-center mt-lg">IN-PERSON</h2>
+                <p class="text-large">My practice is fully in-person. Office is on the Greenpoint / Williamsburg border in Brooklyn</p>
+                <p class="text-large">5-minute walk from the Nassau Avenue G Train, and a 20-minute walk from the Bedford Avenue L Train</p>
+                <p class="text-large"><em>Virtual sessions are available when illness, travel, or emergencies prevent us from being in-person.</em></p>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="content-section section-alt">
+            <div class="container text-center">
+                <h2><a href="contact.html" style="text-decoration: underline;">REQUEST A CONSULTATION</a></h2>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p><strong>ASH MARTIN, LCSW</strong></p>
+            <p><a href="therapy.html">THERAPY</a> & <a href="emdr-adjunctive.html">ADJUNCTIVE EMDR</a></p>
+            <p>IN-PERSON: WILLIAMSBURG / GREENPOINT BROOKLYN, NYC</p>
+            <p>ashmartin.practice@gmail.com</p>
+        </div>
+    </footer>
+
+    <!-- Simple Navigation Toggle Script -->
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
