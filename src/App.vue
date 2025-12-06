@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import ParallaxBackground from './components/ParallaxBackground.vue'
-import HeroSection from './components/HeroSection.vue'
-import HomeSection from './components/HomeSection.vue'
-import TherapySection from './components/TherapySection.vue'
-import EMDRSection from './components/EMDRSection.vue'
-import AboutSection from './components/AboutSection.vue'
+import Hero from './components/Hero.vue'
+import Home from './components/Home.vue'
+import Therapy from './components/Therapy.vue'
+import EMDR from './components/EMDR.vue'
+import About from './components/About.vue'
 </script>
 
 <template>
   <ParallaxBackground />
   <div class="app">
-    <HeroSection />
-    <HomeSection />
-    <TherapySection />
-    <EMDRSection />
-    <AboutSection />
+    <Hero />
+    <Home />
+    <Therapy />
+    <EMDR />
+    <About />
   </div>
 </template>
 

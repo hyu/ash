@@ -19,8 +19,8 @@
 }
 
 .hero-box {
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: var(--color-hero-box-bg);
+  border: 1px solid var(--color-hero-box-border);
   padding: 6rem 7rem;
   text-align: center;
   backdrop-filter: blur(3px);
@@ -28,21 +28,21 @@
 }
 
 .hero-name {
-  font-family: 'Karla', sans-serif;
-  font-weight: 800;
-  font-size: 70px;
-  line-height: 1.2;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-hero-name);
+  line-height: var(--line-height-heading);
   margin: 0;
-  color: #0C343D;
+  color: var(--color-hero-text);
   text-transform: uppercase;
 }
 
 .hero-line {
-  font-family: 'Figtree', sans-serif;
-  font-weight: 500;
-  font-size: 40px;
-  line-height: 1;
-  color: #0c343d;
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-hero-line);
+  line-height: var(--line-height-hero);
+  color: var(--color-hero-text);
 }
 
 .hero-line:last-child {
@@ -56,11 +56,11 @@
   }
 
   .hero-name {
-    font-size: 50px;
+    font-size: var(--font-size-hero-name-tablet);
   }
 
   .hero-line {
-    font-size: 32px;
+    font-size: var(--font-size-hero-line-tablet);
     line-height: 44.8px; /* 70/50 * 32 = 1.4 multiplier */
   }
 }
@@ -71,11 +71,11 @@
   }
 
   .hero-name {
-    font-size: 36px;
+    font-size: var(--font-size-hero-name-mobile);
   }
 
   .hero-line {
-    font-size: 24px;
+    font-size: var(--font-size-hero-line-mobile);
     line-height: 33.6px; /* 70/50 * 24 = 1.4 multiplier */
   }
 }
