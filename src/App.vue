@@ -5,6 +5,7 @@ import Home from './components/Home.vue'
 import Therapy from './components/Therapy.vue'
 import EMDR from './components/EMDR.vue'
 import About from './components/About.vue'
+import Location from './components/Location.vue'
 </script>
 
 <template>
@@ -15,14 +16,7 @@ import About from './components/About.vue'
     <Therapy />
     <EMDR />
     <About />
-    <section class="section">
-      <div class="text-box text-box-left">
-        <h3>In-Person</h3>
-        <p>My practice is fully in-person. Office is on the Greenpoint / Williamsburg border in Brooklyn</p>
-        <p>5-minute walk from the Nassau Avenue G Train, and a 20-minute walk from the Bedford Avenue L Train</p>
-        <p>Virtual sessions are available when illness, travel, or emergencies prevent us from being in-person.</p>
-      </div>
-    </section>
+    <Location />
   </div>
 </template>
 
@@ -34,7 +28,4 @@ import About from './components/About.vue'
   padding: 0;
 }
 
-.section {
-  margin-bottom: 3rem;
-}
 </style>

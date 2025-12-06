@@ -19,7 +19,7 @@ useElementParallax(rightBoxRef, 0.15)
       <p>More and more, we allow ourselves to exist, connect with others, and become alive.</p>
     </div>
   </section>
-  
+    
   <section class="section section-full-height">
     <div class="boxes-container">
       <div ref="leftBoxRef" class="text-box box-left">
@@ -38,7 +38,7 @@ useElementParallax(rightBoxRef, 0.15)
 
 <style scoped>
 .section {
-  margin-bottom: 3rem;
+  margin-top: 0;
 }
 
 .section-full-height {
