@@ -16,7 +16,7 @@
   --color-border: #cccccc;
   
   /* Typography */
-  --font-body: 'Lato', sans-serif;
+  --font-body: 'Alegreya', serif;
   --font-heading: 'Montserrat', Arial, sans-serif;
   
   /* Spacing */
@@ -138,9 +138,9 @@ p {
 }
 
 .nav-logo {
-  font-family: var(--font-heading);
+  font-family: 'Karla', sans-serif;
   font-size: 1.25rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--color-secondary);
   letter-spacing: 1px;
 }
@@ -199,6 +199,10 @@ p {
   padding: var(--spacing-xl) var(--spacing-md);
 }
 
+.hero-fullscreen {
+  min-height: 100vh;
+}
+
 .hero::before {
   content: '';
   position: absolute;
@@ -206,7 +210,7 @@ p {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(12, 52, 61, 0.5);
+  background-color: rgba(12, 52, 61, 0);
   z-index: 1;
 }
 
