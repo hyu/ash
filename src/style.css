@@ -49,9 +49,24 @@ body {
 }
 
 .text-box h3 {
-  font-family: 'Figtree', sans-serif;
-  font-weight: 700;
-  font-size: 1.5em;
-  margin: 0 0 1.5rem 0;
+  font-family: 'Karla', sans-serif;
+  font-weight: 800;
+  font-size: 36px;
+  margin-top: 0;
+  margin-bottom: 1rem;
   color: #99B292;
+}
+
+.text-box h3:not(:first-of-type) {
+  border-top: 1px solid #FFCF8A;
+  padding-top: 4.5rem;
+  margin-top: 4.5rem;
+}
+
+.text-box h3 + p {
+  margin-top: 0;
+}
+
+.text-box-left {
+  max-width: 700px;
 }

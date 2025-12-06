@@ -44,7 +44,7 @@ useElementParallax(rightBoxRef, 0.15)
   gap: 0;
   justify-content: center;
   align-items: flex-start;
-  margin: 6rem auto 4rem;
+  margin: 40rem auto 4rem;
   max-width: 1200px;
   padding: 0 2rem;
 }
@@ -56,11 +56,7 @@ useElementParallax(rightBoxRef, 0.15)
 }
 
 .box-left {
-  /* Left box will be taller naturally due to content */
-}
-
-.box-right {
-  /* Right box will be slightly shorter */
+  margin-right: -1px;
 }
 
 @media (max-width: 768px) {
