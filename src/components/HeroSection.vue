@@ -20,9 +20,11 @@
 
 .hero-box {
   background-color: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(0, 0, 0, 1);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   padding: 6rem 7rem;
   text-align: center;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 
 .hero-name {
@@ -31,7 +33,7 @@
   font-size: 70px;
   line-height: 1.2;
   margin: 0;
-  color: #0c343d;
+  color: #0C343D;
   text-transform: uppercase;
 }
 

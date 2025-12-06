@@ -25,3 +25,25 @@ body {
   width: 100%;
 }
 
+
+
+.text-box {
+  background-color: #FFF9F0;
+  border: 1px solid #99B292;
+  padding: 4rem 5rem;
+  margin: 0 auto;
+  max-width: 580px;
+}
+
+.text-box p {
+  font-family: 'Figtree', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.7;
+  color: #163F00;
+  margin: 0;
+}
+
+.text-box p+p {
+  margin-top: 30px;
+}
