@@ -30,18 +30,4 @@ const scrollToContact = () => {
   </section>
 </template>
 
-<style scoped>
-.cta-link {
-  color: var(--color-text-primary);
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 2px;
-  transition: text-decoration-color 0.2s;
-  cursor: pointer;
-}
-
-.cta-link:hover {
-  text-decoration-color: var(--color-border-primary);
-}
-</style>
 

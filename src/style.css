@@ -3,6 +3,7 @@
      LAYOUT VARIABLES
      ============================================ */
   --layout-section-gap: 16rem;
+  --arrow-size: 90px;
   
   /* Spacing Scale - Desktop vs Mobile */
   --spacing-desktop-vertical: 4rem;
@@ -196,6 +197,18 @@ body {
   margin-bottom: 3rem;
 }
 
+.section:first-child {
+  margin-top: 0;
+}
+
+.section-full-height {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
 /* ============================================
    TEXT BOX
    ============================================ */
@@ -333,4 +346,20 @@ mark.search-highlight {
 mark.search-highlight.search-highlight-active {
   background-color: var(--color-black);
   color: var(--color-white);
+}
+
+/* ============================================
+   LINKS
+   ============================================ */
+.cta-link {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s;
+  cursor: pointer;
+}
+
+.cta-link:hover {
+  text-decoration-color: var(--color-border-primary);
 }

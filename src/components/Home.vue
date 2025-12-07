@@ -80,18 +80,6 @@ const scrollToSection = (sectionId: string) => {
 </template>
 
 <style scoped>
-.section {
-  margin-top: 0;
-}
-
-.section-full-height {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0;
-}
-
 .boxes-container {
   display: flex;
   gap: 0;
@@ -119,10 +107,10 @@ const scrollToSection = (sectionId: string) => {
 
 .arrow-container {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 98px;
-  height: 98px;
+  bottom: 1rem;
+  right: 1rem;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -130,8 +118,8 @@ const scrollToSection = (sectionId: string) => {
 }
 
 .arrow-icon {
-  width: 98px;
-  height: 98px;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
   transition: stroke 0.2s ease;
 }
 
