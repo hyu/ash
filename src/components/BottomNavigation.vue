@@ -164,6 +164,7 @@ onUnmounted(() => {
   z-index: 1000;
   transform: translateY(100%);
   transition: transform 0.5s ease-out;
+  overflow: hidden; /* Clip search buttons by default */
 }
 
 .bottom-nav.is-visible {

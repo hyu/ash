@@ -32,8 +32,8 @@ const isKeywordActive = computed(() => {
   return matchedKeyword.value !== null && activeKeyword.value === matchedKeyword.value
 })
 
-// Check if we should extend the container to show navigation or not-found button
-const hasExtraContent = computed(() => {
+// Check if we have a match and should show navigation or not-found button
+const matchFound = computed(() => {
   return (totalMatches.value > 0 && !shouldShowNotFound.value) || shouldShowNotFound.value
 })
 
@@ -304,11 +304,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
-    <div class="search-container" :class="{ 
-      'is-visible': props.isVisible,
-      'has-extra-content': hasExtraContent
-    }">
+  <div class="search-container" :class="{ 
+    'match-found': matchFound
+  }">
       <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.35-4.35"></path>
@@ -320,35 +318,42 @@ onUnmounted(() => {
         placeholder="Search..."
         @keydown.enter.prevent="shouldShowNotFound ? handleNotFoundClick() : navigateToNextMatch()"
       />
-      <div v-if="totalMatches > 0 && !shouldShowNotFound" class="search-navigation">
-        <button 
-          @click="navigateToPreviousMatch" 
-          class="nav-arrow-button"
-          :disabled="totalMatches === 0"
-          title="Previous match (↑)"
+      <!-- Fixed-width container for button swapping -->
+      <div class="search-buttons-container">
+        <!-- Navigation buttons - shown by default, hidden when keyword matches -->
+        <div 
+          class="search-navigation"
+          :class="{ 'is-active': !shouldShowNotFound }"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m18 15-6-6-6 6"/>
-          </svg>
-        </button>
-        <span class="match-count">{{ currentMatchIndex + 1 }}/{{ totalMatches }}</span>
+          <button 
+            @click="navigateToPreviousMatch" 
+            class="nav-arrow-button"
+            :disabled="totalMatches === 0"
+            title="Previous match (↑)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m18 15-6-6-6 6"/>
+            </svg>
+          </button>
+          <span class="match-count">{{ currentMatchIndex + 1 }}/{{ totalMatches }}</span>
+          <button 
+            @click="navigateToNextMatch" 
+            class="nav-arrow-button"
+            :disabled="totalMatches === 0"
+            title="Next match (↓)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+        </div>
+        <!-- Not found button - shown when keyword matches -->
         <button 
-          @click="navigateToNextMatch" 
-          class="nav-arrow-button"
-          :disabled="totalMatches === 0"
-          title="Next match (↓)"
+          class="not-found-button"
+          :class="{ 'is-active': shouldShowNotFound }"
+          @click="handleNotFoundClick"
+          :disabled="isLoadingKeyword"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </button>
-      </div>
-      <button 
-        v-if="shouldShowNotFound" 
-        @click="handleNotFoundClick"
-        class="not-found-button"
-        :disabled="isLoadingKeyword"
-      >
         <span class="not-found-text">
           <span class="not-text" :class="{ 'strikethrough': isKeywordActive && !isLoadingKeyword }">
             <span>n</span>
@@ -372,46 +377,55 @@ onUnmounted(() => {
           <span class="found-text">found</span>
         </span>
       </button>
-    </div>
+      </div>
   </div>
 </template>
 
 <style scoped>
 .search-container {
+  overflow: visible;
+  position: relative;
   display: flex;
   align-items: center;
-  position: relative;
   gap: 0.5rem;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out, width 0.4s ease-out;
-  transition-delay: 0.2s;
-  overflow: hidden;
   width: fit-content;
+  margin-left: auto; /* Right-align in flex container */
+  /* CSS variables for button widths */
+  --nav-buttons-width: 112px; /* Navigation buttons total width */
+  /* Default: buttons hidden off-screen to the right */
+  transform: translate3d(var(--nav-buttons-width), 0, 0);
+  /* Smooth transition for slide animation */
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  /* GPU acceleration hints */
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
-.search-container.is-visible {
-  transform: translateX(0);
-  opacity: 1;
-  /* Initially constrain to show only icon + input (approximately 200px) */
-  width: 200px;
+/* Match found - slide left to reveal buttons */
+.search-container.match-found {
+  transform: translate3d(0, 0, 0);
 }
 
-/* When extra content appears, extend the container to reveal it */
-.search-container.is-visible.has-extra-content {
-  width: fit-content;
+/* Fixed-width container for button swapping */
+.search-buttons-container {
+  width: var(--nav-buttons-width);
+  position: relative;
+  margin-left: 0.25rem;
+  display: flex;
+  align-items: center;
 }
 
 .search-navigation {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-left: 0.25rem;
 }
 
-.search-container.has-extra-content .not-found-button {
-  /* Button is already visible, just needs container to extend */
+.search-navigation:not(.is-active) {
+  display: none;
 }
+
 
 .nav-arrow-button {
   background: transparent;
@@ -422,7 +436,6 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
   border-radius: 2px;
 }
 
@@ -475,6 +488,11 @@ onUnmounted(() => {
 }
 
 .not-found-button {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   background: transparent;
   border: 1px solid var(--color-border-primary);
   color: var(--color-text-primary);
@@ -484,12 +502,13 @@ onUnmounted(() => {
   padding: 0.5rem 0.75rem;
   cursor: pointer;
   border-radius: 2px;
-  margin-left: 0.25rem;
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 120px;
-  transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s, background-color 0.2s, color 0.2s;
+}
+
+.not-found-button.is-active {
+  display: flex;
 }
 
 .not-found-button:hover:not(:disabled) {
