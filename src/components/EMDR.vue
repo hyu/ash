@@ -1,6 +1,19 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useElementParallax } from '../composables/useElementParallax'
+
+// Parallax multiplier - adjust this to increase/decrease parallax effect
+// Positive values move with scroll direction
+const EMDR_PARALLAX_MULTIPLIER = 0.2
+
+const emdrBoxRef = ref<HTMLElement | null>(null)
+
+useElementParallax(emdrBoxRef, EMDR_PARALLAX_MULTIPLIER)
+</script>
+
 <template>
   <section id="emdr" class="section">
-    <div class="text-box text-box-left text-box--emdr">
+    <div ref="emdrBoxRef" class="text-box text-box-left text-box--emdr">
       <h3>What Is EMDR?</h3>
       <p>EMDR (Eye Movement Desensitization and Reprocessing) therapy was developed to address traumatic stress symptoms, specifically flashbacks, avoidance of triggers, and intrusive thoughts. These days, EMDR is used to target many types of symptoms.</p>
       <p>EMDR differs from talk therapy in that it is more directive, and in fact, often the less you talk during reprocessing, the more effective EMDR tends to be. Learn more below and reach out to schedule a consultation.</p>

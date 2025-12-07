@@ -1,13 +1,41 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed, nextTick } from 'vue'
 import Mark from 'mark.js'
+import { setActiveKeyword, activeKeyword } from '../composables/useKeywords'
+import { keywords } from '../data/keywords'
+
+const props = defineProps<{
+  isVisible: boolean
+}>()
 
 const searchQuery = ref('')
 const currentMatchIndex = ref(-1)
 const totalMatches = ref(0)
+const isLoadingKeyword = ref(false)
 let searchDebounceTimeout: number | null = null
 let markInstance: Mark | null = null
 let markedElements: HTMLElement[] = []
+
+// Check if search query matches a keyword (case-insensitive)
+const matchedKeyword = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase()
+  return keywords[query] ? query : null
+})
+
+// Check if we should show "not found" button (keyword matched)
+const shouldShowNotFound = computed(() => {
+  return matchedKeyword.value !== null
+})
+
+// Check if the matched keyword is currently active (text-box is visible)
+const isKeywordActive = computed(() => {
+  return matchedKeyword.value !== null && activeKeyword.value === matchedKeyword.value
+})
+
+// Check if we should extend the container to show navigation or not-found button
+const hasExtraContent = computed(() => {
+  return (totalMatches.value > 0 && !shouldShowNotFound.value) || shouldShowNotFound.value
+})
 
 const performSearch = () => {
   // Initialize mark instance if not already created
@@ -41,9 +69,14 @@ const performSearch = () => {
                 context.querySelectorAll('mark.search-highlight')
               ) as HTMLElement[]
               totalMatches.value = markedElements.length
-              if (markedElements.length > 0) {
+              // Only auto-scroll if there are matches AND it's not a keyword match
+              if (markedElements.length > 0 && !matchedKeyword.value) {
                 currentMatchIndex.value = 0
                 scrollToMatch(0)
+              } else if (matchedKeyword.value) {
+                // If it's a keyword match, don't scroll automatically
+                // User must click "not found" to reveal and scroll to the section
+                currentMatchIndex.value = -1
               }
             }
           }
@@ -51,6 +84,133 @@ const performSearch = () => {
       }
     }
   })
+}
+
+const handleNotFoundClick = async () => {
+  console.log('handleNotFoundClick called', { 
+    matchedKeyword: matchedKeyword.value, 
+    isLoading: isLoadingKeyword.value,
+    searchQuery: searchQuery.value 
+  })
+  
+  if (!matchedKeyword.value) {
+    console.warn('No keyword matched, cannot proceed')
+    return
+  }
+  
+  if (isLoadingKeyword.value) {
+    console.log('Already loading keyword, ignoring click')
+    return
+  }
+  
+  const keyword = matchedKeyword.value
+  console.log('Activating keyword:', keyword)
+  isLoadingKeyword.value = true
+  setActiveKeyword(keyword)
+  
+  // Wait for Vue to update the DOM
+  await nextTick()
+  console.log('DOM updated, waiting for section to become visible...')
+  
+  // Wait for the section to be fully visible and expanded
+  // Check repeatedly until the section is actually visible with proper height
+  const waitForVisibility = async () => {
+    const keywordSection = document.getElementById(`keyword-${keyword}`)
+    if (keywordSection) {
+      const rect = keywordSection.getBoundingClientRect()
+      const computedStyle = window.getComputedStyle(keywordSection)
+      
+      // Check if section is fully expanded (has height, opacity is 1, and visibility is visible)
+      if (rect.height > 200 && computedStyle.opacity === '1' && computedStyle.visibility === 'visible') {
+        console.log('Section is visible!', { height: rect.height, opacity: computedStyle.opacity })
+        return keywordSection
+      }
+    }
+    return null
+  }
+  
+  // Poll until section is visible, with timeout
+  let attempts = 0
+  let keywordSection = null
+  while (!keywordSection && attempts < 50) {
+    await new Promise(resolve => setTimeout(resolve, 50))
+    keywordSection = await waitForVisibility()
+    attempts++
+    if (attempts % 10 === 0) {
+      console.log(`Waiting for section visibility... attempt ${attempts}/50`)
+    }
+  }
+  
+  // Additional wait to ensure smooth transition completion
+  await new Promise(resolve => setTimeout(resolve, 100))
+  
+  // If we still don't have the section, try to find it anyway (it might exist but not be fully expanded)
+  if (!keywordSection) {
+    console.warn('Section not fully visible after waiting, trying to find it anyway...')
+    keywordSection = document.getElementById(`keyword-${keyword}`)
+    if (keywordSection) {
+      console.log('Found section, but it may not be fully expanded yet')
+    }
+  }
+  
+  if (keywordSection) {
+      // Calculate the correct scroll position to center the text box
+      const textBox = keywordSection.querySelector('.keyword-text-box')
+      if (textBox) {
+        const textBoxRect = textBox.getBoundingClientRect()
+        const viewportHeight = window.innerHeight
+        const currentScrollY = window.scrollY
+        
+        // Center the text box vertically in the viewport
+        const textBoxTop = textBoxRect.top + currentScrollY
+        const textBoxHeight = textBoxRect.height
+        const targetScrollY = textBoxTop - (viewportHeight / 2) + (textBoxHeight / 2)
+        
+        // Use custom smooth scroll with easing
+        const startScrollY = window.scrollY
+        const distance = targetScrollY - startScrollY
+        const duration = 1200 // 1.2 seconds for smooth scroll
+        const startTime = performance.now()
+        
+        const animateScroll = (currentTime: number) => {
+          const elapsed = currentTime - startTime
+          const progress = Math.min(elapsed / duration, 1)
+          
+          // Ease in-out cubic for smooth acceleration and deceleration
+          const easeInOutCubic = progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2
+          
+          const currentScroll = startScrollY + (distance * easeInOutCubic)
+          
+          window.scrollTo(0, currentScroll)
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateScroll)
+          } else {
+            isLoadingKeyword.value = false
+          }
+        }
+        
+        requestAnimationFrame(animateScroll)
+      } else {
+        // Fallback: scroll to the section itself if text box not found
+        const sectionRect = keywordSection.getBoundingClientRect()
+        const targetScrollY = sectionRect.top + window.scrollY - (window.innerHeight / 2) + (sectionRect.height / 2)
+        
+        window.scrollTo({
+          top: targetScrollY,
+          behavior: 'smooth'
+        })
+        
+        setTimeout(() => {
+          isLoadingKeyword.value = false
+        }, 1200)
+      }
+    } else {
+      console.error(`Keyword section not found: keyword-${keyword}`)
+      isLoadingKeyword.value = false
+    }
 }
 
 const scrollToMatch = (index: number) => {
@@ -115,9 +275,13 @@ watch(searchQuery, () => {
     clearTimeout(searchDebounceTimeout)
   }
 
+  // Reset loading state when search changes
+  isLoadingKeyword.value = false
+
   // If search is empty, clear results immediately
   if (!searchQuery.value.trim()) {
     performSearch()
+    setActiveKeyword(null)
     return
   }
 
@@ -140,39 +304,73 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="search-container">
-    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"></circle>
-      <path d="m21 21-4.35-4.35"></path>
-    </svg>
-    <input
-      v-model="searchQuery"
-      type="text"
-      class="search-input"
-      placeholder="Search..."
-      @keydown.enter.prevent="navigateToNextMatch"
-    />
-    <div v-if="totalMatches > 0" class="search-navigation">
+  <div>
+    <div class="search-container" :class="{ 
+      'is-visible': props.isVisible,
+      'has-extra-content': hasExtraContent
+    }">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input
+        v-model="searchQuery"
+        type="text"
+        class="search-input"
+        placeholder="Search..."
+        @keydown.enter.prevent="shouldShowNotFound ? handleNotFoundClick() : navigateToNextMatch()"
+      />
+      <div v-if="totalMatches > 0 && !shouldShowNotFound" class="search-navigation">
+        <button 
+          @click="navigateToPreviousMatch" 
+          class="nav-arrow-button"
+          :disabled="totalMatches === 0"
+          title="Previous match (↑)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m18 15-6-6-6 6"/>
+          </svg>
+        </button>
+        <span class="match-count">{{ currentMatchIndex + 1 }}/{{ totalMatches }}</span>
+        <button 
+          @click="navigateToNextMatch" 
+          class="nav-arrow-button"
+          :disabled="totalMatches === 0"
+          title="Next match (↓)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+      </div>
       <button 
-        @click="navigateToPreviousMatch" 
-        class="nav-arrow-button"
-        :disabled="totalMatches === 0"
-        title="Previous match (↑)"
+        v-if="shouldShowNotFound" 
+        @click="handleNotFoundClick"
+        class="not-found-button"
+        :disabled="isLoadingKeyword"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m18 15-6-6-6 6"/>
-        </svg>
-      </button>
-      <span class="match-count">{{ currentMatchIndex + 1 }}/{{ totalMatches }}</span>
-      <button 
-        @click="navigateToNextMatch" 
-        class="nav-arrow-button"
-        :disabled="totalMatches === 0"
-        title="Next match (↓)"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m6 9 6 6 6-6"/>
-        </svg>
+        <span class="not-found-text">
+          <span class="not-text" :class="{ 'strikethrough': isKeywordActive && !isLoadingKeyword }">
+            <span>n</span>
+            <span v-if="isLoadingKeyword" class="spinner-wrapper">
+              <svg 
+                class="spinner-icon" 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round"
+              >
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+              </svg>
+            </span>
+            <span v-else>o</span>
+            <span>t</span>
+          </span>
+          <span class="found-text">found</span>
+        </span>
       </button>
     </div>
   </div>
@@ -184,6 +382,24 @@ onUnmounted(() => {
   align-items: center;
   position: relative;
   gap: 0.5rem;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out, width 0.4s ease-out;
+  transition-delay: 0.2s;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.search-container.is-visible {
+  transform: translateX(0);
+  opacity: 1;
+  /* Initially constrain to show only icon + input (approximately 200px) */
+  width: 200px;
+}
+
+/* When extra content appears, extend the container to reveal it */
+.search-container.is-visible.has-extra-content {
+  width: fit-content;
 }
 
 .search-navigation {
@@ -191,6 +407,10 @@ onUnmounted(() => {
   align-items: center;
   gap: 0.25rem;
   margin-left: 0.25rem;
+}
+
+.search-container.has-extra-content .not-found-button {
+  /* Button is already visible, just needs container to extend */
 }
 
 .nav-arrow-button {
@@ -254,6 +474,77 @@ onUnmounted(() => {
   opacity: 0.5;
 }
 
+.not-found-button {
+  background: transparent;
+  border: 1px solid var(--color-border-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-monospace);
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s, background-color 0.2s, color 0.2s;
+}
+
+.not-found-button:hover:not(:disabled) {
+  background-color: var(--color-border-primary);
+  color: var(--color-bg-primary);
+}
+
+.not-found-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.not-found-text {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.not-text {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.25rem;
+}
+
+.spinner-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1ch;
+  height: 1em;
+  vertical-align: baseline;
+}
+
+.spinner-icon {
+  width: 0.875em;
+  height: 0.875em;
+}
+
+.not-text.strikethrough {
+  text-decoration: line-through;
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 768px) {
   .search-container {
     width: 100%;
@@ -265,6 +556,19 @@ onUnmounted(() => {
     width: 120px;
     font-size: 0.75rem;
     padding: 0.4rem 0.6rem;
+  }
+
+  .keyword-text-box-wrapper {
+    padding: 1rem;
+  }
+
+  .keyword-text-box {
+    padding: 1.5rem 2rem;
+    max-height: 70vh;
+  }
+
+  .keyword-content {
+    font-size: 1.25rem;
   }
 }
 </style>

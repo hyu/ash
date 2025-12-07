@@ -11,6 +11,10 @@
   --color-sage-medium: #99B292;
   --color-forest-dark: #163F00;
   --color-teal-dark: #0C343D;
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-search-match: #E9EFDA;
+  --color-error: #F42D00;
 
   /* Colors - Functional */
   --color-bg-primary: var(--color-cream-light);
@@ -168,15 +172,13 @@ body {
 
 /* Search highlight styles */
 mark.search-highlight {
-  background-color: var(--color-peach-light);
+  background-color: var(--color-search-match);
   color: var(--color-text-primary);
   padding: 0.1em 0;
   border-radius: 2px;
 }
 
 mark.search-highlight.search-highlight-active {
-  background-color: var(--color-heading);
-  color: var(--color-bg-primary);
-  outline: 2px solid var(--color-heading);
-  outline-offset: 2px;
+  background-color: var(--color-black);
+  color: var(--color-white);
 }

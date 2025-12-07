@@ -4,6 +4,7 @@ import ParallaxBackground from './components/ParallaxBackground.vue'
 import Hero from './components/Hero.vue'
 import Home from './components/Home.vue'
 import BottomNavigation from './components/BottomNavigation.vue'
+import KeywordSections from './components/KeywordSections.vue'
 
 // Lazy load components that are below the fold
 const Therapy = defineAsyncComponent(() => import('./components/Therapy.vue'))
@@ -23,6 +24,7 @@ const Contact = defineAsyncComponent(() => import('./components/ContactForm.vue'
     <About />
     <Location />
     <Contact />
+    <KeywordSections />
   </div>
   <BottomNavigation />
 </template>

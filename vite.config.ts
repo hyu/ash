@@ -19,4 +19,8 @@ export default defineConfig({
     // Increase chunk size warning limit since we're code-splitting
     chunkSizeWarningLimit: 600,
   },
+  test: {
+    globals: true,
+    environment: 'node',
+  },
 })

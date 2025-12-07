@@ -282,9 +282,9 @@ const submitForm = async () => {
 }
 
 .form-error {
-  font-family: var(--font-body);
-  font-size: var(--font-size-body);
-  color: var(--color-text-primary);
+  font-family: var(--font-monospace);
+  font-size: var(--font-size-small);
+  color: var(--color-error);
 }
 
 .email-link {

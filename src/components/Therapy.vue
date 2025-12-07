@@ -1,6 +1,19 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useElementParallax } from '../composables/useElementParallax'
+
+// Parallax multiplier - adjust this to increase/decrease parallax effect
+// Negative values move opposite to scroll direction
+const THERAPY_PARALLAX_MULTIPLIER = -0.15
+
+const therapyBoxRef = ref<HTMLElement | null>(null)
+
+useElementParallax(therapyBoxRef, THERAPY_PARALLAX_MULTIPLIER)
+</script>
+
 <template>
   <section id="therapy" class="section">
-    <div class="text-box text-box-left text-box--therapy">
+    <div ref="therapyBoxRef" class="text-box text-box-left text-box--therapy">
       <h3>Individual Therapy</h3>
       <p>Whether you're experienced doing this work or if you're trying therapy for the first time, together we'll find our way into a conversation. Through conversation, the therapy emerges.</p>      
       <p>In individual therapy we meet one or more times weekly. I work with adults age 18 and up. Reach out to schedule a consultation.</p>
