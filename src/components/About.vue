@@ -1,4 +1,17 @@
 <script setup lang="ts">
+const scrollToContact = () => {
+  const element = document.getElementById('contact')
+  if (!element) return
+  
+  const headerOffset = 100
+  const elementPosition = element.getBoundingClientRect().top
+  const offsetPosition = elementPosition + window.scrollY - headerOffset
+  
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  })
+}
 </script>
 
 <template>
@@ -9,11 +22,26 @@
       
       <p>I offer supervision to early career therapists and social work graduate students, and am SIFI certified. I also enjoy teaching clinicians. Recently I've taught seminars on conducting trauma-informed intakes, and on the value of patients' right to refuse aspects of EMDR therapy.</p>
       
-      <p>Reach out to schedule a consultation.</p>
+      <p><a href="#" @click.prevent="scrollToContact" class="cta-link">Reach out</a> to schedule a consultation.</p>
       
       <h3>Insurance</h3>
       <p>I will work with you to use your out-of-network benefits. I provide you with a superbill to submit to your insurance to be reimbursed either all or a portion of the fee.</p>
     </div>
   </section>
 </template>
+
+<style scoped>
+.cta-link {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s;
+  cursor: pointer;
+}
+
+.cta-link:hover {
+  text-decoration-color: var(--color-border-primary);
+}
+</style>
 

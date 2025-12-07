@@ -136,9 +136,7 @@ watch(activeKeyword, (newKeyword) => {
     >
       <div class="keyword-section-background">
         <div class="text-box keyword-text-box">
-          <div class="keyword-content">
-            <pre>{{ keywords[keyword] }}</pre>
-          </div>
+          <div class="keyword-content" v-html="keywords[keyword]"></div>
         </div>
       </div>
     </section>
@@ -196,13 +194,12 @@ watch(activeKeyword, (newKeyword) => {
   color: var(--color-text-primary);
 }
 
-.keyword-content pre {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+.keyword-content p {
+  margin: 0 0 1em 0;
+}
+
+.keyword-content p:last-child {
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {

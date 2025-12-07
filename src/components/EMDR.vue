@@ -9,6 +9,20 @@ const EMDR_PARALLAX_MULTIPLIER = 0.2
 const emdrBoxRef = ref<HTMLElement | null>(null)
 
 useElementParallax(emdrBoxRef, EMDR_PARALLAX_MULTIPLIER)
+
+const scrollToContact = () => {
+  const element = document.getElementById('contact')
+  if (!element) return
+  
+  const headerOffset = 100
+  const elementPosition = element.getBoundingClientRect().top
+  const offsetPosition = elementPosition + window.scrollY - headerOffset
+  
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  })
+}
 </script>
 
 <template>
@@ -16,7 +30,7 @@ useElementParallax(emdrBoxRef, EMDR_PARALLAX_MULTIPLIER)
     <div ref="emdrBoxRef" class="text-box text-box-left text-box--emdr">
       <h3>What Is EMDR?</h3>
       <p>EMDR (Eye Movement Desensitization and Reprocessing) therapy was developed to address traumatic stress symptoms, specifically flashbacks, avoidance of triggers, and intrusive thoughts. These days, EMDR is used to target many types of symptoms.</p>
-      <p>EMDR differs from talk therapy in that it is more directive, and in fact, often the less you talk during reprocessing, the more effective EMDR tends to be. Learn more below and reach out to schedule a consultation.</p>
+      <p>EMDR differs from talk therapy in that it is more directive, and in fact, often the less you talk during reprocessing, the more effective EMDR tends to be. Learn more below and <a href="#" @click.prevent="scrollToContact" class="cta-link">reach out</a> to schedule a consultation.</p>
       
       <h3>Adjunctive EMDR Therapy</h3>
       <p>If you are already in an ongoing therapy and want to do EMDR, I offer adjunctive therapy. You continue to work with your primary therapist and add-on EMDR. The adjunctive therapy is supportive of the primary therapy and we all work together toward a common purpose.</p>      
@@ -31,15 +45,17 @@ useElementParallax(emdrBoxRef, EMDR_PARALLAX_MULTIPLIER)
       
       <h3>Who Benefits from EMDR?</h3>
       <p>EMDR can be useful when any of the following arise:</p>
-      <p>You're having flashbacks to distressing memories or avoiding people/places/things/emotions that remind you of the memories</p>
-      <p>You want to work on trauma memories, but you don't want to talk about them, or even think much about them (there are techniques in EMDR where memories are barely talked/thought about)</p>
-      <p>You're persistently triggered, flashing back, or severely dissociated in your primary therapy; you're unable to make use of primary therapy because you are too overwhelmed</p>
-      <p>You're experiencing overwhelming "somatic flashbacks" where it feels as though you're no longer in the present</p>
-      <p>You're afraid of your emotions and want to practice getting more comfortable with them</p>
-      <p>You're dissociating excessively in your day to day life (dissociation is a normal and essential part of being alive, but sometimes we overcompensate with dissociation and miss out on other ways of participating in life)</p>
-      <p>You want the experience of having two clinicians working together to support your process</p>
-      <p>You're worried that seeking additional support isn't warranted because your history is "not traumatic enough"</p>
-      <p>You've heard about EMDR and are curious about it</p>
+      <ul>
+        <li>You're having flashbacks to distressing memories or avoiding people/places/things/emotions that remind you of the memories</li>
+        <li>You want to work on trauma memories, but you don't want to talk about them, or even think much about them (there are techniques in EMDR where memories are barely talked/thought about)</li>
+        <li>You're persistently triggered, flashing back, or severely dissociated in your primary therapy; you're unable to make use of primary therapy because you are too overwhelmed</li>
+        <li>You're experiencing overwhelming "somatic flashbacks" where it feels as though you're no longer in the present</li>
+        <li>You're afraid of your emotions and want to practice getting more comfortable with them</li>
+        <li>You're dissociating excessively in your day to day life (dissociation is a normal and essential part of being alive, but sometimes we overcompensate with dissociation and miss out on other ways of participating in life)</li>
+        <li>You want the experience of having two clinicians working together to support your process</li>
+        <li>You're worried that seeking additional support isn't warranted because your history is "not traumatic enough"</li>
+        <li>You've heard about EMDR and are curious about it</li>
+      </ul>
       
       <h3>Using Your Out of Network Benefits</h3>
       <p>Typically, if your insurance reimburses your primary therapy, it is likely to reimburse adjunctive EMDR, too. I recommend that you reach out to the insurance company to confirm.</p>
@@ -53,4 +69,41 @@ useElementParallax(emdrBoxRef, EMDR_PARALLAX_MULTIPLIER)
     </div>
   </section>
 </template>
+
+<style scoped>
+.cta-link {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.2s;
+  cursor: pointer;
+}
+
+.cta-link:hover {
+  text-decoration-color: var(--color-border-primary);
+}
+
+ul {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+ul + p {
+  margin-top: 1.875rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+</style>
 

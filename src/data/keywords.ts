@@ -8,21 +8,15 @@
  */
 
 export const keywords: Record<string, string> = {
-  holding: `I ask you to hold me. 
+  holding: `<p>I ask you to hold me.<br/>
+Please hold me.<br/>
+You have no idea what you're holding.</p>
 
-Please hold me.
-
-You have no idea what you're holding.
-
-I have no idea what you're holding.
-
-(When we speak of our dreams
-
-the beautiful thing is
-
-neither of us have any idea
-
-what we're talking about)`
+<p>I have no idea what you're holding.<br/>
+(When we speak of our dreams<br/>
+the beautiful thing is<br/>
+neither of us have any idea<br/>
+what we're talking about)</p>`
 }
 
 // Export keyword keys as an array for convenience

@@ -217,7 +217,7 @@ const submitForm = async () => {
         :href="mailtoLink"
         class="form-submit button"
       >
-        Send Message
+        try email
       </a>
     </div>
       </form>
@@ -283,7 +283,7 @@ const submitForm = async () => {
 
 .form-error {
   font-family: var(--font-monospace);
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-medium);
   color: var(--color-error);
 }
 

@@ -392,8 +392,11 @@ onUnmounted(() => {
   margin-left: auto; /* Right-align in flex container */
   /* CSS variables for button widths */
   --nav-buttons-width: 112px; /* Navigation buttons total width */
+  --buttons-container-margin: 0.25rem; /* 4px */
+  --container-gap: 0.5rem; /* 8px */
+  --buttons-total-width: calc(var(--nav-buttons-width) + var(--buttons-container-margin) + var(--container-gap)); /* 112px + 4px + 8px = 124px */
   /* Default: buttons hidden off-screen to the right */
-  transform: translate3d(var(--nav-buttons-width), 0, 0);
+  transform: translate3d(var(--buttons-total-width), 0, 0);
   /* Smooth transition for slide animation */
   transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
   /* GPU acceleration hints */
@@ -512,8 +515,8 @@ onUnmounted(() => {
 }
 
 .not-found-button:hover:not(:disabled) {
-  background-color: var(--color-border-primary);
-  color: var(--color-bg-primary);
+  background-color: var(--color-black);
+  color: var(--color-white);
 }
 
 .not-found-button:disabled {

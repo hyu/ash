@@ -20,16 +20,40 @@ const scrollToSection = (sectionId: string) => {
   }
 
   const element = document.getElementById(sectionId)
-  if (element) {
-    const headerOffset = 100 // Offset for good reading position
-    const elementPosition = element.getBoundingClientRect().top
-    const offsetPosition = elementPosition + window.scrollY - headerOffset
+  if (!element) return
+
+  // For Therapy and EMDR sections, get the layout position (without parallax transform)
+  // so we always scroll to the same consistent position
+  if (sectionId === 'therapy' || sectionId === 'emdr') {
+    const textBox = element.querySelector('.text-box') as HTMLElement
+    if (!textBox) return
+
+    // Temporarily remove transform to get the true layout position
+    const currentTransform = textBox.style.transform
+    textBox.style.transform = 'none'
+    const layoutRect = textBox.getBoundingClientRect()
+    const layoutTopAbsolute = layoutRect.top + window.scrollY
+    textBox.style.transform = currentTransform // Restore transform
+    
+    // Scroll to the layout position (parallax will adjust after scroll)
+    const targetScrollY = layoutTopAbsolute
 
     window.scrollTo({
-      top: offsetPosition,
+      top: Math.max(0, targetScrollY),
       behavior: 'smooth'
     })
+    return
   }
+
+  // For non-parallax sections, use standard calculation
+  const headerOffset = 100
+  const elementPosition = element.getBoundingClientRect().top
+  const offsetPosition = elementPosition + window.scrollY - headerOffset
+
+  window.scrollTo({
+    top: offsetPosition,
+    behavior: 'smooth'
+  })
 }
 
 const updateActiveSection = () => {
@@ -39,6 +63,8 @@ const updateActiveSection = () => {
   // Check sections in reverse order to find the last one we've scrolled past
   for (let i = sections.length - 1; i >= 0; i--) {
     const sectionId = sections[i]
+    if (!sectionId) continue
+    
     const element = document.getElementById(sectionId)
     
     if (element) {
