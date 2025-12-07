@@ -1,6 +1,6 @@
 :root {
   /* ============================================
-     LAYOUT VARIABLES - HAND TWEAK THESE
+     LAYOUT VARIABLES
      ============================================ */
   --layout-section-gap: 16rem;
   
@@ -96,7 +96,7 @@
   --font-size-hero-line-tablet: 2rem;      /* 32px */
   --font-size-hero-line-mobile: 1.5rem;    /* 24px */
 
-  /* Font Sizes - Text Box - HAND TWEAK THESE */
+  /* Font Sizes - Text Box */
   --text-size-h3-desktop: 2.25rem;       /* 36px */
   --text-size-h3-mobile: 1.75rem;        /* 28px */
   
@@ -122,7 +122,7 @@
   --line-height-heading: 1.2;
   --line-height-hero: 1;
 
-  /* Text Box Spacing - H3 Spacing - HAND TWEAK THESE */
+  /* Text Box Spacing - H3 Spacing */
   --h3-margin-bottom-desktop: 2rem;
   --h3-margin-bottom-mobile: 1.25rem;
   
@@ -295,6 +295,29 @@ body {
 .button.copied {
   background-color: var(--color-border-primary);
   color: var(--color-bg-primary);
+}
+
+/* Button Variant: Nav Arrow */
+.button--nav-arrow {
+  background: transparent;
+  border: 1px solid var(--color-border-primary);
+  color: var(--color-text-primary);
+  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  text-transform: none;
+}
+
+.button--nav-arrow:hover:not(:disabled) {
+  background-color: var(--color-border-primary);
+  color: var(--color-bg-primary);
+}
+
+.button--nav-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* ============================================
