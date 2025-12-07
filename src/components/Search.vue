@@ -514,11 +514,14 @@ onUnmounted(() => {
 .not-found-button:hover:not(:disabled) {
   background-color: var(--color-black);
   color: var(--color-white);
+  border-color: var(--color-black);
 }
 
 .not-found-button:disabled {
   cursor: wait;
-  opacity: 0.7;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
 }
 
 .not-found-text {
@@ -567,14 +570,19 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .search-container {
     width: 100%;
-    justify-content: flex-end;
-    margin-top: 0.5rem;
+    justify-content: center;
+    margin-top: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .search-container.match-found {
+    transform: translate3d(0, 0, 0);
   }
 
   .search-input {
-    width: 120px;
-    font-size: 0.75rem;
-    padding: 0.4rem 0.6rem;
+    width: 150px;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
   }
 
   .keyword-text-box-wrapper {

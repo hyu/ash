@@ -3,6 +3,21 @@
   --layout-section-gap: 16rem;
   --layout-text-box-padding-override: 5rem;
 
+  /* Z-Index Layers */
+  /* 
+   * Z-index hierarchy (lowest to highest):
+   * - Background: -1 (behind all content)
+   * - Content: 0 (default, normal document flow)
+   * - Bottom Navigation: 1000 (above content)
+   * - Mobile Overlays: 2000 (menu/search overlays, above nav)
+   * - Mobile Controls: 3000 (hamburger/search buttons, above overlays)
+   */
+  --z-index-background: -1;
+  --z-index-content: 0;
+  --z-index-bottom-nav: 1000;
+  --z-index-mobile-overlay: 2000;
+  --z-index-mobile-controls: 3000;
+
   /* Colors */
   --color-peach-light: #FFCF8A;
   --color-cream-light: #FFF9F0;
@@ -124,7 +139,7 @@ body {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-h3);
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   color: var(--color-heading);
 }
 

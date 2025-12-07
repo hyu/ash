@@ -24,7 +24,7 @@ useParallax(backgroundRef, BACKGROUND_IMAGE_PATH)
   background-position: center top;
   background-repeat: no-repeat;
   background-attachment: scroll;
-  z-index: -1;
+  z-index: var(--z-index-background);
   /* GPU acceleration optimizations */
   will-change: transform;
   transform: translate3d(0, 0, 0);

@@ -5,13 +5,38 @@ import Search from './Search.vue'
 const isVisible = ref(false)
 const hasAppeared = ref(false)
 const activeSection = ref<string>('home')
+const isMobileMenuOpen = ref(false)
+const isSearchActive = ref(false)
 let initialDelayTimeout: number | null = null
 
 const sections = ['home', 'therapy', 'emdr', 'about', 'contact']
 
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+  if (isMobileMenuOpen.value) {
+    isSearchActive.value = false
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+}
+
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false
+  document.body.style.overflow = ''
+}
+
+const handleSearchToggle = () => {
+  isSearchActive.value = !isSearchActive.value
+  if (isSearchActive.value) {
+    isMobileMenuOpen.value = false
+  }
+}
+
 const scrollToSection = (sectionId: string) => {
+  closeMobileMenu()
+  
   if (sectionId === 'home') {
-    // Home scrolls to the very top of the site
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
@@ -22,7 +47,6 @@ const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId)
   if (!element) return
 
-  // Standard scroll calculation for all sections
   const headerOffset = 100
   const elementPosition = element.getBoundingClientRect().top
   const offsetPosition = elementPosition + window.scrollY - headerOffset
@@ -35,9 +59,8 @@ const scrollToSection = (sectionId: string) => {
 
 const updateActiveSection = () => {
   const scrollY = window.scrollY
-  const threshold = 150 // Offset from top of viewport to consider section "scrolled past"
+  const threshold = 150
 
-  // Check sections in reverse order to find the last one we've scrolled past
   for (let i = sections.length - 1; i >= 0; i--) {
     const sectionId = sections[i]
     if (!sectionId) continue
@@ -48,13 +71,11 @@ const updateActiveSection = () => {
       const elementTop = element.getBoundingClientRect().top + scrollY
       
       if (sectionId === 'home') {
-        // Home is active if we're near the top
         if (scrollY < threshold) {
           activeSection.value = 'home'
           return
         }
       } else {
-        // For other sections, check if we've scrolled past their top (with threshold)
         if (scrollY + threshold >= elementTop) {
           activeSection.value = sectionId
           return
@@ -63,24 +84,20 @@ const updateActiveSection = () => {
     }
   }
   
-  // Default to home if at top
   if (scrollY < threshold) {
     activeSection.value = 'home'
   }
 }
 
 const handleScroll = () => {
-  // Update active section
   updateActiveSection()
 
-  // If we haven't appeared yet, wait 1s after first scroll
   if (!hasAppeared.value) {
     hasAppeared.value = true
     initialDelayTimeout = window.setTimeout(() => {
       isVisible.value = true
     }, 1000)
   } else {
-    // After first appearance, show immediately on scroll
     isVisible.value = true
   }
 }
@@ -100,11 +117,39 @@ onUnmounted(() => {
   if (initialDelayTimeout) {
     clearTimeout(initialDelayTimeout)
   }
+  // Clean up body overflow style
+  document.body.style.overflow = ''
 })
 </script>
 
 <template>
+  <button 
+    class="mobile-hamburger" 
+    @click="toggleMobileMenu"
+    :class="{ 'is-open': isMobileMenuOpen }"
+    aria-label="Toggle menu"
+  >
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+
+  <!-- Outside nav to avoid transform containing block issues -->
+  <button 
+    class="mobile-search-toggle" 
+    @click="handleSearchToggle"
+    :class="{ 'is-active': isSearchActive }"
+    aria-label="Toggle search"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </button>
+
   <nav class="bottom-nav" :class="{ 'is-visible': isVisible }">
+
+    <!-- Desktop Navigation -->
     <div class="nav-left">
       <div class="nav-name">ASH MARTIN, LCSW</div>
       <div class="nav-links">
@@ -145,8 +190,58 @@ onUnmounted(() => {
         </button>
       </div>
     </div>
-    <Search :is-visible="isVisible" />
+
+    <Search :is-visible="isVisible" class="desktop-search" />
   </nav>
+
+  <!-- Outside nav to avoid transform containing block issues -->
+  <div class="mobile-menu-overlay" :class="{ 'is-open': isMobileMenuOpen }">
+    <div class="mobile-menu-content">
+      <div class="mobile-nav-name">ASH MARTIN, LCSW</div>
+      <div class="mobile-nav-links">
+        <button 
+          @click="scrollToSection('home')" 
+          class="mobile-nav-link" 
+          :class="{ 'is-active': activeSection === 'home' }"
+        >
+          Home
+        </button>
+        <button 
+          @click="scrollToSection('therapy')" 
+          class="mobile-nav-link" 
+          :class="{ 'is-active': activeSection === 'therapy' }"
+        >
+          Therapy
+        </button>
+        <button 
+          @click="scrollToSection('emdr')" 
+          class="mobile-nav-link" 
+          :class="{ 'is-active': activeSection === 'emdr' }"
+        >
+          EMDR & Adjunctive
+        </button>
+        <button 
+          @click="scrollToSection('about')" 
+          class="mobile-nav-link" 
+          :class="{ 'is-active': activeSection === 'about' }"
+        >
+          About
+        </button>
+        <button 
+          @click="scrollToSection('contact')" 
+          class="mobile-nav-link mobile-nav-link-contact" 
+          :class="{ 'is-active': activeSection === 'contact' }"
+        >
+          Contact
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Search Overlay (only search bar at bottom) -->
+  <div class="mobile-search-overlay" :class="{ 'is-open': isSearchActive }">
+    <Search :is-visible="isVisible" class="mobile-search" />
+  </div>
 </template>
 
 <style scoped>
@@ -165,7 +260,7 @@ onUnmounted(() => {
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   border-top: 1px solid var(--color-border-primary);
-  z-index: 1000;
+  z-index: var(--z-index-bottom-nav);
   transform: translateY(100%);
   transition: transform 0.5s ease-out;
   overflow: hidden; /* Clip search buttons by default */
@@ -184,7 +279,7 @@ onUnmounted(() => {
 .nav-name {
   font-family: var(--font-body);
   font-weight: 900;
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
   color: var(--color-text-primary);
   white-space: nowrap;
 }
@@ -201,7 +296,7 @@ onUnmounted(() => {
   color: var(--color-text-primary);
   font-family: var(--font-monospace);
   font-weight: 500;
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
   cursor: pointer;
   padding: 1rem 1.5rem;
   white-space: nowrap;
@@ -230,33 +325,215 @@ onUnmounted(() => {
   font-weight: 800;
 }
 
+.mobile-hamburger,
+.mobile-search-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  z-index: var(--z-index-mobile-controls);
+  background: transparent;
+  border: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.mobile-hamburger {
+  left: 1rem;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobile-search-toggle {
+  right: 1rem;
+  color: var(--color-text-primary);
+}
+
+.hamburger-line {
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text-primary);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.mobile-hamburger.is-open .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-hamburger.is-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-hamburger.is-open .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.mobile-search-toggle.is-active {
+  color: var(--color-border-primary);
+}
+
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--color-bg-primary);
+  z-index: var(--z-index-mobile-overlay);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-menu-overlay.is-open {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mobile-menu-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 2rem;
+  position: relative;
+  z-index: var(--z-index-mobile-overlay);
+}
+
+.mobile-nav-name {
+  font-family: var(--font-body);
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.mobile-nav-link {
+  background: none;
+  border: 1px solid var(--color-border-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-monospace);
+  font-weight: 500;
+  font-size: 1.125rem;
+  cursor: pointer;
+  padding: 1.25rem 2rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.is-active {
+  background-color: var(--color-border-primary);
+  color: var(--color-bg-primary);
+}
+
+.mobile-nav-link-contact {
+  font-weight: 800;
+  background-color: var(--color-border-primary);
+  color: var(--color-bg-primary);
+}
+
+.mobile-nav-link-contact:hover {
+  background-color: var(--color-text-primary);
+}
+
+/* Mobile Search Overlay */
+.mobile-search-overlay {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-index-mobile-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-search-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-search {
+  display: none;
+}
+
+.desktop-search {
+  display: flex;
+}
+
 @media (max-width: 768px) {
-  .bottom-nav {
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 0 1rem;
+  .nav-left,
+  .desktop-search {
+    display: none;
   }
 
-  .nav-left {
-    width: 100%;
-    flex-direction: column;
-    gap: 0.5rem;
+  .mobile-hamburger,
+  .mobile-search-toggle {
+    display: flex;
   }
 
-  .nav-name {
-    width: 100%;
-    text-align: center;
+  .mobile-menu-overlay {
+    display: block;
   }
 
-  .nav-links {
-    width: 100%;
+  .mobile-menu-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mobile-search-overlay {
+    display: block;
+  }
+
+  .mobile-search {
+    display: flex;
+    background-color: var(--color-hero-box-bg);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    border-top: 1px solid var(--color-border-primary);
+    padding: 1rem;
     justify-content: center;
-    gap: 1rem;
   }
 
-  .nav-link {
-    font-size: 0.875rem;
-    padding: 1rem 1rem;
+  .bottom-nav {
+    padding: 0;
+    min-height: 0;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow: visible;
   }
 }
 </style>
