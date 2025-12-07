@@ -1,5 +1,8 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <section class="section">
+  <section id="about" class="section">
     <div class="text-box text-box-left text-box--about">
       <h3>About</h3>
       <p>I'm a licensed clinical social worker (LCSW). Much of my training is psychoanalytically oriented, and I trained and worked at the EMDR Trauma Treatment Center at the National Institute for the Psychotherapies.</p>

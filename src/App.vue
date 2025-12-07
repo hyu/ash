@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import ParallaxBackground from './components/ParallaxBackground.vue'
 import Hero from './components/Hero.vue'
 import Home from './components/Home.vue'
-import Therapy from './components/Therapy.vue'
-import EMDR from './components/EMDR.vue'
-import About from './components/About.vue'
-import Location from './components/Location.vue'
+import BottomNavigation from './components/BottomNavigation.vue'
+
+// Lazy load components that are below the fold
+const Therapy = defineAsyncComponent(() => import('./components/Therapy.vue'))
+const EMDR = defineAsyncComponent(() => import('./components/EMDR.vue'))
+const About = defineAsyncComponent(() => import('./components/About.vue'))
+const Location = defineAsyncComponent(() => import('./components/Location.vue'))
+const Contact = defineAsyncComponent(() => import('./components/ContactForm.vue'))
 </script>
 
 <template>
@@ -17,7 +22,9 @@ import Location from './components/Location.vue'
     <EMDR />
     <About />
     <Location />
+    <Contact />
   </div>
+  <BottomNavigation />
 </template>
 
 <style scoped>

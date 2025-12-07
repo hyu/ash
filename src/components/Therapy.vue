@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section id="therapy" class="section">
     <div class="text-box text-box-left text-box--therapy">
       <h3>Individual Therapy</h3>
       <p>Whether you're experienced doing this work or if you're trying therapy for the first time, together we'll find our way into a conversation. Through conversation, the therapy emerges.</p>      

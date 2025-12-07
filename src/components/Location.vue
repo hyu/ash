@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
-import mapboxgl from 'mapbox-gl'
 import type { Map } from 'mapbox-gl'
+import type mapboxglType from 'mapbox-gl'
 
-// Location: 40°43'34.7"N 73°57'18.7"W (converted to decimal: 40.726306, -73.955194)
-const officeLocation: [number, number] = [-73.955194, 40.726306]
-const locationLink = 'https://www.google.com/maps/dir/?api=1&destination=40.726306,-73.955194'
-const locationText = 'Near Messerole & Dobbin in Greenpoint / Williamsburg Brooklyn'
+// Dynamically import mapbox-gl and its CSS only when this component loads
+let mapboxgl: typeof mapboxglType
+
+// Location: Dobbin St & Meserole Ave, Brooklyn, NY 11222
+const officeLocation: [number, number] = [-73.9552235, 40.7262688]
+const locationLink = 'https://www.google.com/maps/dir/40.854064,-73.9387152/Dobbin+St+%26+Meserole+Ave,+Brooklyn,+NY+11222/@40.7892927,-74.02462,12z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x89c25943de4e395f:0xd38ae1741c2fa52f!2m2!1d-73.9552235!2d40.7262688!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MTIwMi4wIKXMDSoASAFQAw%3D%3D'
+const locationText = 'Dobbin St & Meserole Ave, Brooklyn, NY 11222'
 
 const copied = ref(false)
 
@@ -36,12 +39,17 @@ const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN || 'pk.eyJ1IjoiaGFueXUiLCJ
 const mapContainer = ref<HTMLDivElement | null>(null)
 let map: Map | null = null
 
-onMounted(() => {
+onMounted(async () => {
   if (!mapContainer.value || !mapboxToken) {
     console.warn('Mapbox token not set.')
     return
   }
 
+  // Dynamically load mapbox-gl only when component mounts
+  const mapboxModule = await import('mapbox-gl')
+  mapboxgl = mapboxModule.default
+  await import('mapbox-gl/dist/mapbox-gl.css')
+  
   mapboxgl.accessToken = mapboxToken
 
   // Site color palette
@@ -193,7 +201,7 @@ onUnmounted(() => {
   <section class="section">
     <div class="text-box text-box-left">
       <h3>In-Person</h3>
-      <p>My practice is fully in-person. Office is near Messerole & Dobbin in Greenpoint / Williamsburg Brooklyn</p>
+      <p>My practice is fully in-person. Office is at Dobbin St & Meserole Ave, Brooklyn, NY 11222</p>
       <p>
         5-minute walk from the Nassau Avenue 
         <span class="train-icon train-icon-g" @click="openGTrainDirections" title="Get directions from G Train">

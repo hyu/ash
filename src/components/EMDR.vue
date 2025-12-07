@@ -1,5 +1,5 @@
 <template>
-  <section class="section">
+  <section id="emdr" class="section">
     <div class="text-box text-box-left text-box--emdr">
       <h3>What Is EMDR?</h3>
       <p>EMDR (Eye Movement Desensitization and Reprocessing) therapy was developed to address traumatic stress symptoms, specifically flashbacks, avoidance of triggers, and intrusive thoughts. These days, EMDR is used to target many types of symptoms.</p>

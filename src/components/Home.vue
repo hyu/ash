@@ -12,7 +12,7 @@ useElementParallax(rightBoxRef, 0.15)
 
 
 <template>
-  <section class="section section-full-height">
+  <section id="home" class="section section-full-height">
     <div class="text-box">
       <p>Therapy is a space for restoring trust in our instincts.</p>
       <p>From there, we find our way to action, pleasure, creativity, and rest.</p>

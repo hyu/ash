@@ -16,6 +16,7 @@
   /* Typography - Font Families */
   --font-body: 'Figtree', sans-serif;
   --font-heading: 'Karla', sans-serif;
+  --font-monospace: 'Azeret Mono', monospace;
   --font-system: system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   /* Typography - Font Sizes (in REM for responsive design) */
@@ -75,6 +76,7 @@ body {
 
 #app {
   width: 100%;
+  padding-bottom: 6rem;
 }
 
 .section {

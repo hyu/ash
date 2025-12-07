@@ -2,14 +2,14 @@
 import { ref } from 'vue'
 import { useParallax } from '../composables/useParallax'
 
-const BACKGROUND_IMAGE_PATH = '/bg.jpg'
+const BACKGROUND_IMAGE_PATH = `${import.meta.env.BASE_URL}bg.jpg`
 
 const backgroundRef = ref<HTMLElement | null>(null)
 useParallax(backgroundRef, BACKGROUND_IMAGE_PATH)
 </script>
 
 <template>
-  <div ref="backgroundRef" class="background"></div>
+  <div ref="backgroundRef" class="background" :style="{ backgroundImage: `url(${BACKGROUND_IMAGE_PATH})` }"></div>
 </template>
 
 <style scoped>
@@ -20,7 +20,6 @@ useParallax(backgroundRef, BACKGROUND_IMAGE_PATH)
   width: 100%;
   height: 100vh;
   min-height: 100vh;
-  background-image: url('/bg.jpg');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
