@@ -4,7 +4,6 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const isVisible = ref(false)
 const hasAppeared = ref(false)
 const activeSection = ref<string>('home')
-let scrollTimeout: number | null = null
 let initialDelayTimeout: number | null = null
 
 const sections = ['home', 'therapy', 'emdr', 'about', 'contact']
@@ -34,7 +33,6 @@ const scrollToSection = (sectionId: string) => {
 
 const updateActiveSection = () => {
   const scrollY = window.scrollY
-  const viewportHeight = window.innerHeight
   const threshold = 150 // Offset from top of viewport to consider section "scrolled past"
 
   // Check sections in reverse order to find the last one we've scrolled past
@@ -68,11 +66,6 @@ const updateActiveSection = () => {
 }
 
 const handleScroll = () => {
-  // Clear any existing timeout
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout)
-  }
-
   // Update active section
   updateActiveSection()
 
@@ -99,9 +92,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
-  if (scrollTimeout) {
-    clearTimeout(scrollTimeout)
-  }
   if (initialDelayTimeout) {
     clearTimeout(initialDelayTimeout)
   }
@@ -161,6 +151,7 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+  min-height: 60px;
   background-color: var(--color-hero-box-bg);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
@@ -197,7 +188,6 @@ onUnmounted(() => {
   font-size: 1rem; /* 16px */
   cursor: pointer;
   padding: 1rem 1.5rem;
-  transition: color 0.2s;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -209,10 +199,7 @@ onUnmounted(() => {
   display: inline-block;
 }
 
-.nav-link:hover {
-  color: var(--color-heading);
-}
-
+.nav-link:hover span::after,
 .nav-link.is-active span::after {
   content: '';
   position: absolute;
