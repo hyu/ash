@@ -1,9 +1,26 @@
 :root {
-  /* Layout */
+  /* ============================================
+     LAYOUT VARIABLES - HAND TWEAK THESE
+     ============================================ */
   --layout-section-gap: 16rem;
-  --layout-text-box-padding-override: 5rem;
+  
+  /* Spacing Scale - Desktop vs Mobile */
+  --spacing-desktop-vertical: 4rem;
+  --spacing-desktop-horizontal: 5rem;
+  --spacing-mobile: 3rem;
 
-  /* Z-Index Layers */
+  /* Text Box - Padding & Margins */
+  --text-box-padding-vertical: var(--spacing-desktop-vertical);
+  --text-box-padding-horizontal: var(--spacing-desktop-horizontal);
+  --layout-text-box-padding-override: var(--spacing-desktop-horizontal);
+  --text-box-margin-top: 0;
+  --text-box-margin-bottom: 0;
+  --text-box-margin-left: auto;
+  --text-box-margin-right: auto;
+
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
   /* 
    * Z-index hierarchy (lowest to highest):
    * - Background: -1 (behind all content)
@@ -18,36 +35,48 @@
   --z-index-mobile-overlay: 2000;
   --z-index-mobile-controls: 3000;
 
-  /* Colors */
-  --color-peach-light: #FFCF8A;
-  --color-cream-light: #FFF9F0;
-  --color-white-translucent: rgba(255, 255, 255, 0.15);
-  --color-black-translucent: rgba(0, 0, 0, 0.5);
-  --color-sage-medium: #99B292;
-  --color-forest-dark: #163F00;
-  --color-teal-dark: #0C343D;
-  --color-black: #000000;
-  --color-white: #FFFFFF;
-  --color-search-match: #E9EFDA;
-  --color-error: #F42D00;
+  /* ============================================
+     COLORS
+     ============================================ */
+  /* Base Colors */
+  
+  --color-red: #F42D00;
+  --color-peach: #FFCF8A;
+  --color-cream: #FFF9F0;
 
-  /* Colors - Functional */
-  --color-bg-primary: var(--color-cream-light);
-  --color-border-primary: var(--color-sage-medium);
-  --color-text-primary: var(--color-forest-dark);
-  --color-heading: var(--color-sage-medium);
-  --color-border-divider: var(--color-peach-light);
-  --color-hero-text: var(--color-teal-dark);
+  --color-green-darker: #0C343D;
+  --color-green-dark: #163F00;
+  --color-green: #99B292;
+  --color-green-light: #E9EFDA;
+  
+  --color-white: rgba(255, 255, 255, 1);
+  --color-white-translucent: rgba(255, 255, 255, 0.15);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-black-translucent: rgba(0, 0, 0, 0.5);
+
+
+  /* Functional Colors */
+  --color-bg-primary: var(--color-cream);
+  --color-border-primary: var(--color-green);
+  --color-text-primary: var(--color-green-dark);
+  --color-heading: var(--color-green);
+  --color-border-divider: var(--color-peach);
+  --color-hero-text: var(--color-green-darker);
   --color-hero-box-bg: var(--color-white-translucent);
   --color-hero-box-border: var(--color-black-translucent);
+  --color-search-match: var(--color-green-light);
+  --color-error: var(--color-red);
 
-  /* Typography - Font Families */
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  /* Font Families */
   --font-body: 'Figtree', sans-serif;
   --font-heading: 'Karla', sans-serif;
   --font-monospace: 'Azeret Mono', monospace;
   --font-system: system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  /* Typography - Font Sizes (in REM for responsive design) */
+  /* Font Sizes - General */
   /* 
    * REM units scale with the root font size (16px by default)
    * This ensures better accessibility and responsive behavior
@@ -57,7 +86,9 @@
   --font-size-list: 1.3rem;
   --font-size-h3: 2.25rem;            /* 36px */
   --font-size-button: 0.75rem;        /* 12px */
-  --font-size-small: 0.625rem;         /* 10px */
+  --font-size-small: 0.625rem;        /* 10px */
+
+  /* Font Sizes - Hero */
   --font-size-hero-line: 2.5rem;      /* 40px */
   --font-size-hero-name: 4.375rem;    /* 70px */
   --font-size-hero-name-tablet: 3.125rem;  /* 50px */
@@ -65,18 +96,47 @@
   --font-size-hero-line-tablet: 2rem;      /* 32px */
   --font-size-hero-line-mobile: 1.5rem;    /* 24px */
 
-  /* Typography - Font Weights */
+  /* Font Sizes - Text Box - HAND TWEAK THESE */
+  --text-size-h3-desktop: 2.25rem;       /* 36px */
+  --text-size-h3-mobile: 1.75rem;        /* 28px */
+  
+  --text-size-body-desktop: 1.5rem;      /* 24px */
+  --text-size-body-mobile: 1.25rem;      /* 20px */
+  
+  --text-size-list-desktop: 1.3rem;      /* ~21px */
+  --text-size-list-mobile: 1.125rem;     /* 18px */
+
+  /* Active font sizes (change with breakpoints) */
+  --text-box-font-size-body: var(--text-size-body-desktop);
+  --text-box-font-size-list: var(--text-size-list-desktop);
+  --text-box-font-size-h3: var(--text-size-h3-desktop);
+
+  /* Font Weights */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-bold: 800;
 
-  /* Typography - Line Heights */
+  /* Line Heights */
   --line-height-body: 1.7;
   --line-height-base: 1.5;
   --line-height-heading: 1.2;
   --line-height-hero: 1;
 
-  /* Base Styles */
+  /* Text Box Spacing - H3 Spacing - HAND TWEAK THESE */
+  --h3-margin-bottom-desktop: 2rem;
+  --h3-margin-bottom-mobile: 1.25rem;
+  
+  --h3-section-spacing-desktop: 4.5rem;
+  --h3-section-spacing-mobile: 2rem;
+
+  /* Active H3 spacing (change with breakpoints) */
+  --text-box-h3-margin-bottom: var(--h3-margin-bottom-desktop);
+  --text-box-h3-section-padding-top: var(--h3-section-spacing-desktop);
+  --text-box-h3-section-margin-top: var(--h3-section-spacing-desktop);
+
+  /* ============================================
+     BASE STYLES
+     ============================================ */
   font-family: var(--font-system);
   font-size: 16px; /* Base font size - 1rem = 16px */
   line-height: var(--line-height-base);
@@ -91,6 +151,26 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+@media (max-width: 768px) {
+  :root {
+    --text-box-padding-vertical: var(--spacing-mobile);
+    --text-box-padding-horizontal: var(--spacing-mobile);
+    --layout-text-box-padding-override: var(--spacing-mobile);
+    --text-box-font-size-body: var(--text-size-body-mobile);
+    --text-box-font-size-list: var(--text-size-list-mobile);
+    --text-box-font-size-h3: var(--text-size-h3-mobile);
+    --text-box-h3-margin-bottom: var(--h3-margin-bottom-mobile);
+    --text-box-h3-section-padding-top: var(--h3-section-spacing-mobile);
+    --text-box-h3-section-margin-top: var(--h3-section-spacing-mobile);
+  }
+}
+
+/* ============================================
+   BASE ELEMENTS
+   ============================================ */
 html {
   font-size: 16px; /* Base font size - ensures 1rem = 16px */
 }
@@ -108,23 +188,29 @@ body {
   padding-bottom: 6rem;
 }
 
+/* ============================================
+   SECTIONS
+   ============================================ */
 .section {
   margin-top: var(--layout-section-gap);
   margin-bottom: 3rem;
 }
 
+/* ============================================
+   TEXT BOX
+   ============================================ */
 .text-box {
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border-primary);
-  padding: 4rem 5rem;
-  margin: 0 auto;
+  padding: var(--text-box-padding-vertical) var(--text-box-padding-horizontal);
+  margin: var(--text-box-margin-top) var(--text-box-margin-right) var(--text-box-margin-bottom) var(--text-box-margin-left);
   max-width: 36.25rem; /* 580px */
 }
 
 .text-box p {
   font-family: var(--font-body);
   font-weight: var(--font-weight-normal);
-  font-size: var(--font-size-body);
+  font-size: var(--text-box-font-size-body);
   line-height: var(--line-height-body);
   color: var(--color-text-primary);
   margin: 0;
@@ -137,16 +223,16 @@ body {
 .text-box h3 {
   font-family: var(--font-heading);
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-h3);
+  font-size: var(--text-box-font-size-h3);
   margin-top: 0;
-  margin-bottom: 2rem;
+  margin-bottom: var(--text-box-h3-margin-bottom);
   color: var(--color-heading);
 }
 
 .text-box h3:not(:first-of-type) {
   border-top: 1px dashed var(--color-border-divider);
-  padding-top: 4.5rem;
-  margin-top: 4.5rem;
+  padding-top: var(--text-box-h3-section-padding-top);
+  margin-top: var(--text-box-h3-section-margin-top);
 }
 
 .text-box h3 + p {
@@ -156,7 +242,7 @@ body {
 .text-box ul {
   font-family: var(--font-body);
   font-weight: var(--font-weight-normal);
-  font-size: var(--font-size-list);
+  font-size: var(--text-box-font-size-list);
   line-height: var(--line-height-body);
   color: var(--color-text-primary);
   margin: 2rem 0;
@@ -182,9 +268,12 @@ body {
 .text-box--therapy,
 .text-box--emdr,
 .text-box--about {
-  padding: var(--layout-text-box-padding-override) 5rem var(--layout-text-box-padding-override) 5rem;
+  padding: var(--layout-text-box-padding-override) var(--text-box-padding-horizontal) var(--layout-text-box-padding-override) var(--text-box-padding-horizontal);
 }
 
+/* ============================================
+   BUTTONS
+   ============================================ */
 .button {
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border-primary);
@@ -208,7 +297,9 @@ body {
   color: var(--color-bg-primary);
 }
 
-/* Search highlight styles */
+/* ============================================
+   SEARCH HIGHLIGHTS
+   ============================================ */
 mark.search-highlight {
   background-color: var(--color-search-match);
   color: var(--color-text-primary);
