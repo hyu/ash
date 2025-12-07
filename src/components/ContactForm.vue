@@ -53,6 +53,10 @@ const validateForm = (): boolean => {
     errorMessage.value = 'Please enter a note'
     return false
   }
+  if (formData.value.note.length > 2000) {
+    errorMessage.value = 'Note must be 2000 characters or less'
+    return false
+  }
   return true
 }
 
@@ -185,34 +189,37 @@ const submitForm = async () => {
         name="note"
         rows="6"
         required
+        maxlength="2000"
         :disabled="isSubmitting"
         class="form-textarea"
       ></textarea>
     </div>
 
-    <div v-if="submitStatus === 'error'" class="form-error">
-      <div v-if="showEmailFallback">
-        <p>{{ errorMessage }}</p>
-        <a :href="mailtoLink" class="email-fallback-link">
-          {{ getContactEmail() }}
-        </a>
+    <div class="form-footer">
+      <div v-if="submitStatus === 'error'" class="form-error">
+        Hm, this didn't work. You can try <a :href="mailtoLink" class="email-link">email</a> instead.
       </div>
-      <div v-else>
-        {{ errorMessage }}
+
+      <div v-if="submitStatus === 'success'" class="form-success">
+        Thank you! Your message has been sent successfully.
       </div>
-    </div>
 
-    <div v-if="submitStatus === 'success'" class="form-success">
-      Thank you! Your message has been sent successfully.
+      <button
+        v-if="submitStatus !== 'error'"
+        type="submit"
+        :disabled="isSubmitting"
+        class="form-submit button"
+      >
+        {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+      </button>
+      <a
+        v-else
+        :href="mailtoLink"
+        class="form-submit button"
+      >
+        Send Message
+      </a>
     </div>
-
-    <button
-      type="submit"
-      :disabled="isSubmitting"
-      class="form-submit button"
-    >
-      {{ isSubmitting ? 'Sending...' : 'Send Message' }}
-    </button>
       </form>
     </div>
   </section>
@@ -229,10 +236,10 @@ const submitForm = async () => {
 
 .form-group label {
   display: block;
-  font-family: var(--font-body);
-  font-size: var(--font-size-body);
+  font-family: var(--font-monospace);
+  font-size: 1rem;
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
+  color: var(--color-forest-dark);
   margin-bottom: 0.5rem;
 }
 
@@ -240,9 +247,9 @@ const submitForm = async () => {
 .form-textarea {
   width: 100%;
   padding: 0.75rem;
-  font-family: var(--font-body);
-  font-size: var(--font-size-body);
-  color: var(--color-text-primary);
+  font-family: 'Roboto Serif', serif;
+  font-size: 1.125rem;
+  color: var(--color-forest-dark);
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-border-primary);
   border-radius: 0;
@@ -264,43 +271,28 @@ const submitForm = async () => {
 
 .form-textarea {
   resize: vertical;
-  min-height: 120px;
+  min-height: 12rem;
+}
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .form-error {
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background-color: #fee;
-  border: 1px solid #fcc;
-  color: #c33;
-  font-family: var(--font-body);
-  font-size: 1rem;
-}
-
-.form-error p {
-  margin: 0 0 0.5rem 0;
-}
-
-.email-fallback-link {
-  display: inline-block;
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-primary);
-  padding: 0.5rem 1rem;
-  text-decoration: none;
   font-family: var(--font-body);
   font-size: var(--font-size-body);
-  margin-top: 0.5rem;
-  transition: all 0.2s;
+  color: var(--color-text-primary);
 }
 
-.email-fallback-link:hover {
-  background-color: var(--color-border-divider);
-  border-color: var(--color-heading);
+.email-link {
+  text-decoration: underline;
+  color: var(--color-text-primary);
 }
 
 .form-success {
-  margin-bottom: 1rem;
   padding: 0.75rem;
   background-color: #efe;
   border: 1px solid #cfc;
@@ -310,10 +302,11 @@ const submitForm = async () => {
 }
 
 .form-submit {
-  margin-top: 1rem;
-  width: 100%;
+  margin-left: auto;
   padding: 0.75rem 1.5rem;
   font-size: var(--font-size-button);
+  text-decoration: none;
+  display: inline-block;
 }
 
 .form-submit:disabled {

@@ -4,14 +4,23 @@
   --layout-text-box-padding-override: 5rem;
 
   /* Colors */
-  --color-bg-primary: #FFF9F0;
-  --color-border-primary: #99B292;
-  --color-text-primary: #163F00;
-  --color-heading: #99B292;
-  --color-border-divider: #FFCF8A;
-  --color-hero-text: #0C343D;
-  --color-hero-box-bg: rgba(255, 255, 255, 0.15);
-  --color-hero-box-border: rgba(0, 0, 0, 0.5);
+  --color-peach-light: #FFCF8A;
+  --color-cream-light: #FFF9F0;
+  --color-white-translucent: rgba(255, 255, 255, 0.15);
+  --color-black-translucent: rgba(0, 0, 0, 0.5);
+  --color-sage-medium: #99B292;
+  --color-forest-dark: #163F00;
+  --color-teal-dark: #0C343D;
+
+  /* Colors - Functional */
+  --color-bg-primary: var(--color-cream-light);
+  --color-border-primary: var(--color-sage-medium);
+  --color-text-primary: var(--color-forest-dark);
+  --color-heading: var(--color-sage-medium);
+  --color-border-divider: var(--color-peach-light);
+  --color-hero-text: var(--color-teal-dark);
+  --color-hero-box-bg: var(--color-white-translucent);
+  --color-hero-box-border: var(--color-black-translucent);
 
   /* Typography - Font Families */
   --font-body: 'Figtree', sans-serif;
