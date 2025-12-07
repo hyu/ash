@@ -1,14 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useElementParallax } from '../composables/useElementParallax'
-
-// Parallax multiplier - adjust this to increase/decrease parallax effect
-// Positive values move with scroll direction
-const EMDR_PARALLAX_MULTIPLIER = 0.2
-
-const emdrBoxRef = ref<HTMLElement | null>(null)
-
-useElementParallax(emdrBoxRef, EMDR_PARALLAX_MULTIPLIER)
 
 const scrollToContact = () => {
   const element = document.getElementById('contact')
@@ -27,7 +17,7 @@ const scrollToContact = () => {
 
 <template>
   <section id="emdr" class="section">
-    <div ref="emdrBoxRef" class="text-box text-box-left text-box--emdr">
+    <div class="text-box text-box-left text-box--emdr">
       <h3>What Is EMDR?</h3>
       <p>EMDR (Eye Movement Desensitization and Reprocessing) therapy was developed to address traumatic stress symptoms, specifically flashbacks, avoidance of triggers, and intrusive thoughts. These days, EMDR is used to target many types of symptoms.</p>
       <p>EMDR differs from talk therapy in that it is more directive, and in fact, often the less you talk during reprocessing, the more effective EMDR tends to be. Learn more below and <a href="#" @click.prevent="scrollToContact" class="cta-link">reach out</a> to schedule a consultation.</p>
@@ -82,28 +72,6 @@ const scrollToContact = () => {
 
 .cta-link:hover {
   text-decoration-color: var(--color-border-primary);
-}
-
-ul {
-  font-family: var(--font-body);
-  font-weight: var(--font-weight-normal);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  color: var(--color-text-primary);
-  margin: 0;
-  padding-left: 1.5rem;
-}
-
-ul + p {
-  margin-top: 1.875rem;
-}
-
-li {
-  margin-bottom: 0.5rem;
-}
-
-li:last-child {
-  margin-bottom: 0;
 }
 </style>
 

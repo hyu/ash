@@ -137,6 +137,28 @@ body {
   margin-top: 0;
 }
 
+.text-box ul {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.text-box ul + p {
+  margin-top: 1.875rem; /* 30px */
+}
+
+.text-box li {
+  margin-bottom: 0.5rem;
+}
+
+.text-box li:last-child {
+  margin-bottom: 0;
+}
+
 .text-box-left {
   max-width: 43.75rem; /* 700px */
 }

@@ -1,14 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useElementParallax } from '../composables/useElementParallax'
-
-// Parallax multiplier - adjust this to increase/decrease parallax effect
-// Negative values move opposite to scroll direction
-const THERAPY_PARALLAX_MULTIPLIER = -0.3
-
-const therapyBoxRef = ref<HTMLElement | null>(null)
-
-useElementParallax(therapyBoxRef, THERAPY_PARALLAX_MULTIPLIER)
 
 const scrollToContact = () => {
   const element = document.getElementById('contact')
@@ -27,7 +17,7 @@ const scrollToContact = () => {
 
 <template>
   <section id="therapy" class="section">
-    <div ref="therapyBoxRef" class="text-box text-box-left text-box--therapy">
+    <div class="text-box text-box-left text-box--therapy">
       <h3>Individual Therapy</h3>
       <p>Whether you're experienced doing this work or if you're trying therapy for the first time, together we'll find our way into a conversation. Through conversation, the therapy emerges.</p>      
       <p>In individual therapy we meet one or more times weekly. I work with adults age 18 and up. <a href="#" @click.prevent="scrollToContact" class="cta-link">Reach out</a> to schedule a consultation.</p>
