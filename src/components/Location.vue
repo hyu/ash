@@ -8,7 +8,7 @@ let mapboxgl: typeof mapboxglType
 
 // Location: Dobbin St & Meserole Ave, Brooklyn, NY 11222
 const officeLocation: [number, number] = [-73.9552235, 40.7262688]
-const locationLink = 'https://www.google.com/maps/dir/40.854064,-73.9387152/Dobbin+St+%26+Meserole+Ave,+Brooklyn,+NY+11222/@40.7892927,-74.02462,12z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x89c25943de4e395f:0xd38ae1741c2fa52f!2m2!1d-73.9552235!2d40.7262688!5m1!1e2?entry=ttu&g_ep=EgoyMDI1MTIwMi4wIKXMDSoASAFQAw%3D%3D'
+const locationLink = 'https://www.google.com/maps/dir/Brooklyn,+NY/Dobbin+St+%26+Meserole+Ave,+Brooklyn,+NY+11222'
 const locationText = 'Dobbin St & Meserole Ave, Brooklyn, NY 11222'
 
 const copied = ref(false)
