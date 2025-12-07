@@ -165,3 +165,18 @@ body {
   background-color: var(--color-border-primary);
   color: var(--color-bg-primary);
 }
+
+/* Search highlight styles */
+mark.search-highlight {
+  background-color: var(--color-peach-light);
+  color: var(--color-text-primary);
+  padding: 0.1em 0;
+  border-radius: 2px;
+}
+
+mark.search-highlight.search-highlight-active {
+  background-color: var(--color-heading);
+  color: var(--color-bg-primary);
+  outline: 2px solid var(--color-heading);
+  outline-offset: 2px;
+}
