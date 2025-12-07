@@ -3,7 +3,7 @@ import { defineAsyncComponent } from 'vue'
 import ParallaxBackground from './components/ParallaxBackground.vue'
 import Hero from './components/Hero.vue'
 import Home from './components/Home.vue'
-import BottomNavigation from './components/BottomNavigation.vue'
+import Navigation from './components/Navigation.vue'
 import KeywordSections from './components/KeywordSections.vue'
 
 // Lazy load components that are below the fold
@@ -26,7 +26,7 @@ const Contact = defineAsyncComponent(() => import('./components/ContactForm.vue'
     <Contact />
     <KeywordSections />
   </div>
-  <BottomNavigation />
+  <Navigation />
 </template>
 
 <style scoped>
