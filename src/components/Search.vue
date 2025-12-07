@@ -327,7 +327,7 @@ onUnmounted(() => {
         >
           <button 
             @click="navigateToPreviousMatch" 
-            class="nav-arrow-button"
+            class="button button--nav-arrow"
             :disabled="totalMatches === 0"
             title="Previous match (↑)"
           >
@@ -338,7 +338,7 @@ onUnmounted(() => {
           <span class="match-count">{{ currentMatchIndex + 1 }}/{{ totalMatches }}</span>
           <button 
             @click="navigateToNextMatch" 
-            class="nav-arrow-button"
+            class="button button--nav-arrow"
             :disabled="totalMatches === 0"
             title="Next match (↓)"
           >
@@ -424,29 +424,6 @@ onUnmounted(() => {
 
 .search-navigation:not(.is-active) {
   display: none;
-}
-
-
-.nav-arrow-button {
-  background: transparent;
-  border: 1px solid var(--color-border-primary);
-  color: var(--color-text-primary);
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
-}
-
-.nav-arrow-button:hover:not(:disabled) {
-  background-color: var(--color-border-primary);
-  color: var(--color-bg-primary);
-}
-
-.nav-arrow-button:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
 }
 
 .match-count {
