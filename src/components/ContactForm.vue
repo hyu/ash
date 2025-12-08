@@ -230,88 +230,13 @@ const submitForm = async () => {
   margin-top: 3rem;
 }
 
-.form-group {
-  margin-bottom: 2rem;
-}
-
-.form-group label {
-  display: block;
-  font-family: var(--font-monospace);
-  font-size: 1rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-forest-dark);
-  margin-bottom: 0.5rem;
-}
-
-.form-input,
-.form-textarea {
-  width: 100%;
-  padding: 0.75rem;
-  font-family: 'Roboto Serif', serif;
-  font-size: 1.125rem;
-  color: var(--color-forest-dark);
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-primary);
-  border-radius: 0;
-  box-sizing: border-box;
-  transition: border-color 0.2s;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: var(--color-heading);
-}
-
-.form-input:disabled,
-.form-textarea:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 12rem;
-}
-
-.form-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.form-error {
-  font-family: var(--font-monospace);
-  font-size: var(--font-size-medium);
-  color: var(--color-error);
+.contact-form label {
+  color: var(--color-green);
 }
 
 .email-link {
   text-decoration: underline;
   color: var(--color-text-primary);
-}
-
-.form-success {
-  padding: 0.75rem;
-  background-color: #efe;
-  border: 1px solid #cfc;
-  color: #3c3;
-  font-family: var(--font-body);
-  font-size: 1rem;
-}
-
-.form-submit {
-  margin-left: auto;
-  padding: 0.75rem 1.5rem;
-  font-size: var(--font-size-button);
-  text-decoration: none;
-  display: inline-block;
-}
-
-.form-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 </style>
 

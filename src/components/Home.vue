@@ -55,7 +55,7 @@ const scrollToSection = (sectionId: string) => {
     
   <section class="section section-full-height">
     <div class="boxes-container">
-      <div ref="leftBoxRef" class="text-box box-left clickable-box" @click="scrollToSection('therapy')">
+      <div ref="leftBoxRef" class="text-box box-left" @click="scrollToSection('therapy')">
         <h3>Therapy</h3>
         <p>Whether you're experienced in doing this work or if you're coming to therapy for the first time, together we'll find our way into a conversation. Through conversation, the therapy emerges.</p>
         <div class="arrow-container">
@@ -65,7 +65,7 @@ const scrollToSection = (sectionId: string) => {
         </div>
       </div>
       
-      <div ref="rightBoxRef" class="text-box box-right clickable-box" @click="scrollToSection('emdr')">
+      <div ref="rightBoxRef" class="text-box box-right" @click="scrollToSection('emdr')">
         <h3>EMDR & Adjunctive</h3>
         <p>EMDR (Eye Movement Desensitization and Reprocessing) therapy targets traumatic stress symptoms. Specifically flashbacks, avoidance of triggers, and intrusive thoughts.</p>
         <p>If you are already in an ongoing therapy and want to add EMDR to your process, I offer adjunctive EMDR.</p>
@@ -95,9 +95,6 @@ const scrollToSection = (sectionId: string) => {
   max-width: 580px;
   will-change: transform;
   position: relative;
-}
-
-.clickable-box {
   cursor: pointer;
 }
 
@@ -123,7 +120,7 @@ const scrollToSection = (sectionId: string) => {
   transition: stroke 0.2s ease;
 }
 
-.clickable-box:hover .arrow-icon path {
+.text-box:hover .arrow-icon path {
   stroke: var(--color-black);
 }
 

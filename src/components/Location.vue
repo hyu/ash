@@ -229,6 +229,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* Map Container */
 .map-container {
   width: 100%;
   height: 400px;
@@ -247,6 +248,7 @@ onUnmounted(() => {
   outline: none;
 }
 
+/* Mapbox Controls Styling */
 :deep(.mapboxgl-ctrl-logo) {
   display: none;
 }
@@ -272,6 +274,7 @@ onUnmounted(() => {
   background-color: var(--color-border-divider);
 }
 
+/* Location Link */
 .location-link-container {
   margin-top: 1.25rem;
   display: flex;
@@ -284,50 +287,19 @@ onUnmounted(() => {
   flex: 1;
   min-width: 12.5rem;
   color: var(--color-text-primary);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.5;
   word-break: break-all;
   padding: 0.5rem 0;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 2px;
   transition: text-decoration-color 0.2s;
 }
 
 .location-link:hover {
   text-decoration-color: var(--color-border-primary);
 }
-
-.train-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.5em;
-  height: 1.5em;
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 0.9em;
-  color: white;
-  margin: 0 0.25em;
-  vertical-align: middle;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  user-select: none;
-}
-
-.train-icon-g {
-  background-color: #6cbe45; /* Green for G train */
-}
-
-.train-icon-l {
-  background-color: #a7a9ac; /* Gray for L train */
-}
-
-.train-icon:hover {
-  background-color: #000000 !important;
-}
-
 </style>
 

@@ -327,7 +327,7 @@ onUnmounted(() => {
         >
           <button 
             @click="navigateToPreviousMatch" 
-            class="button button--nav-arrow"
+            class="button button--nav button--arrow"
             :disabled="totalMatches === 0"
             title="Previous match (↑)"
           >
@@ -338,7 +338,7 @@ onUnmounted(() => {
           <span class="match-count">{{ currentMatchIndex + 1 }}/{{ totalMatches }}</span>
           <button 
             @click="navigateToNextMatch" 
-            class="button button--nav-arrow"
+            class="button button--nav button--arrow"
             :disabled="totalMatches === 0"
             title="Next match (↓)"
           >
@@ -349,7 +349,7 @@ onUnmounted(() => {
         </div>
         <!-- Not found button - shown when keyword matches -->
         <button 
-          class="not-found-button"
+          class="button button--nav button--not-found not-found-button"
           :class="{ 'is-active': shouldShowNotFound }"
           @click="handleNotFoundClick"
           :disabled="isLoadingKeyword"
@@ -386,10 +386,11 @@ onUnmounted(() => {
   overflow: visible;
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: stretch; /* Stretch children to full height */
   gap: 0.5rem;
   width: fit-content;
   margin-left: auto; /* Right-align in flex container */
+  padding: var(--search-container-padding-vertical, 1rem) 0; /* Vertical padding from CSS variable */
   /* CSS variables for button container width and parent padding */
   --buttons-width: 120px; /* Width of buttons container (matches not-found-button width) */
   /* Default: buttons hidden off-screen to the right (accounting for parent padding) */
@@ -413,12 +414,13 @@ onUnmounted(() => {
   position: relative;
   margin-left: 0.25rem;
   display: flex;
-  align-items: center;
+  align-items: stretch; /* Stretch to match input height */
+  height: 100%; /* Match search container height */
 }
 
 .search-navigation {
   display: flex;
-  align-items: center;
+  align-items: center; /* Center buttons vertically */
   gap: 0.25rem;
 }
 
@@ -433,6 +435,9 @@ onUnmounted(() => {
   min-width: 2.5rem;
   text-align: center;
   font-weight: 500;
+  display: flex;
+  align-items: center; /* Vertically center text */
+  justify-content: center;
 }
 
 .search-icon {
@@ -440,6 +445,7 @@ onUnmounted(() => {
   flex-shrink: 0;
   width: 16px;
   height: 16px;
+  align-self: center; /* Vertically center icon (don't stretch SVG) */
 }
 
 .search-input {
@@ -449,10 +455,13 @@ onUnmounted(() => {
   font-family: var(--font-monospace);
   font-weight: 500;
   font-size: 0.875rem;
+  line-height: 1.2; /* Tighter line-height for better vertical centering */
   padding: 0.5rem 0.75rem;
   width: 150px;
+  height: 100%; /* Stretch to full height of container */
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box; /* Include border in height calculation */
 }
 
 .search-input:focus {
@@ -464,47 +473,25 @@ onUnmounted(() => {
   opacity: 0.5;
 }
 
+/* Component-specific positioning styles */
 .not-found-button {
   display: none;
   position: absolute;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: 1px solid var(--color-border-primary);
-  color: var(--color-text-primary);
-  font-family: var(--font-monospace);
-  font-weight: 500;
-  font-size: 0.875rem;
-  padding: 0.5rem 0.75rem;
-  cursor: pointer;
-  border-radius: 2px;
-  align-items: center;
-  justify-content: center;
-  width: 120px;
+  top: 0;
+  height: 100%; /* Match parent container height */
 }
 
 .not-found-button.is-active {
   display: flex;
 }
 
-.not-found-button:hover:not(:disabled) {
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border-color: var(--color-black);
-}
-
-.not-found-button:disabled {
-  cursor: wait;
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border-color: var(--color-black);
-}
-
 .not-found-text {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0;
+  width: 100%; /* Ensure full width for centering */
 }
 
 .not-text {
@@ -533,6 +520,7 @@ onUnmounted(() => {
 
 .spinner-icon {
   animation: spin 1s linear infinite;
+  color: var(--color-white);
 }
 
 @keyframes spin {
@@ -548,31 +536,11 @@ onUnmounted(() => {
   .search-container {
     width: 100%;
     justify-content: center;
-    margin-top: 0;
-    transform: translate3d(0, 0, 0);
-  }
-
-  .search-container.match-found {
     transform: translate3d(0, 0, 0);
   }
 
   .search-input {
     width: 150px;
-    font-size: 0.875rem;
-    padding: 0.5rem 0.75rem;
-  }
-
-  .keyword-text-box-wrapper {
-    padding: 1rem;
-  }
-
-  .keyword-text-box {
-    padding: 1.5rem 2rem;
-    max-height: 70vh;
-  }
-
-  .keyword-content {
-    font-size: 1.25rem;
   }
 }
 </style>

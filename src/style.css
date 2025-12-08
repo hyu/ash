@@ -4,6 +4,8 @@
      ============================================ */
   --layout-section-gap: 16rem;
   --arrow-size: 90px;
+  --nav-height: 60px;
+  --search-container-padding-vertical: 0.8rem;
   
   /* Spacing Scale - Desktop vs Mobile */
   --spacing-desktop-vertical: 4rem;
@@ -310,27 +312,52 @@ body {
   color: var(--color-bg-primary);
 }
 
-/* Button Variant: Nav Arrow */
-.button--nav-arrow {
+/* Button Variant: Nav */
+.button--nav {
   background: transparent;
-  border: 1px solid var(--color-border-primary);
+  border: 1px solid var(--color-black);
   color: var(--color-text-primary);
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem; /* Match search input padding */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
   text-transform: none;
+  height: 100%; /* Match parent container height (flexbox will determine this) */
 }
 
-.button--nav-arrow:hover:not(:disabled) {
-  background-color: var(--color-border-primary);
-  color: var(--color-bg-primary);
+.button--nav:hover:not(:disabled) {
+  background-color: var(--color-black);
+  color: var(--color-white);
 }
 
-.button--nav-arrow:disabled {
+.button--nav:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+/* Button Variant: "Not Found" */
+.button--nav.button--not-found {
+  width: 120px; /* Fixed width for not-found button */
+}
+
+.button--nav.button--not-found:disabled {
+  cursor: wait;
+  opacity: 1;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* Button Variant: Arrow */
+.button--nav.button--arrow {
+  aspect-ratio: 1; /* Perfect square - width matches height */
+  height: auto; /* Override base height: 100% - let aspect-ratio determine size */
+  max-height: 100%; /* Constrain to parent container height */
+}
+
+.button--nav.button--arrow svg {
+  display: block; /* Remove any inline spacing */
+  flex-shrink: 0; /* Prevent SVG from shrinking */
 }
 
 /* ============================================
@@ -362,4 +389,119 @@ mark.search-highlight.search-highlight-active {
 
 .cta-link:hover {
   text-decoration-color: var(--color-border-primary);
+}
+
+/* ============================================
+   FORMS
+   ============================================ */
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--font-monospace);
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 0;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-heading);
+}
+
+.form-input:disabled,
+.form-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 12rem;
+}
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.form-error {
+  font-family: var(--font-monospace);
+  font-size: 1rem;
+  color: var(--color-error);
+}
+
+.form-success {
+  padding: 0.75rem;
+  background-color: #efe;
+  border: 1px solid #cfc;
+  color: #3c3;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.form-submit {
+  margin-left: auto;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-button);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+/* Train Icons */
+.train-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: white;
+  margin: 0 0.25em;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.train-icon-g {
+  background-color: #6cbe45; /* Green for G train */
+}
+
+.train-icon-l {
+  background-color: #a7a9ac; /* Gray for L train */
+}
+
+.train-icon:hover {
+  background-color: #000000 !important;
 }

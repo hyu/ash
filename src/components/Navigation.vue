@@ -147,7 +147,7 @@ onUnmounted(() => {
     </svg>
   </button>
 
-  <nav class="bottom-nav" :class="{ 'is-visible': isVisible }">
+  <nav class="navigation" :class="{ 'is-visible': isVisible }">
 
     <!-- Desktop Navigation -->
     <div class="nav-left">
@@ -245,17 +245,17 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.bottom-nav {
+.navigation {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch; /* Allow children to stretch to full height */
   --nav-padding-right: 2rem;
   padding: 0 var(--nav-padding-right);
-  min-height: 60px;
+  height: var(--nav-height); /* Fixed height instead of min-height */
   background-color: var(--color-hero-box-bg);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
@@ -266,7 +266,7 @@ onUnmounted(() => {
   overflow: hidden; /* Clip search buttons by default */
 }
 
-.bottom-nav.is-visible {
+.navigation.is-visible {
   transform: translateY(0);
 }
 
@@ -274,6 +274,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 2rem;
+  /* Stretches to full height via parent's align-items: stretch */
 }
 
 .nav-name {
@@ -286,8 +287,8 @@ onUnmounted(() => {
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  align-items: stretch; /* Stretch links to full height */
+  height: 100%; /* Full height of parent */
 }
 
 .nav-link {
@@ -298,11 +299,12 @@ onUnmounted(() => {
   font-weight: 500;
   font-size: 1rem;
   cursor: pointer;
-  padding: 1rem 1.5rem;
+  padding: 0 1.5rem; /* Removed vertical padding */
   white-space: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%; /* Full height for bigger click area */
 }
 
 .nav-link span {
@@ -526,7 +528,7 @@ onUnmounted(() => {
     justify-content: center;
   }
 
-  .bottom-nav {
+  .navigation {
     padding: 0;
     min-height: 0;
     background: transparent;
